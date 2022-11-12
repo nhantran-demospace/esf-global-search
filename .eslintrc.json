@@ -1,3 +1,65 @@
 {
-  "extends": "next/core-web-vitals"
+  "env": {
+    "es2021": true,
+    "browser": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended",
+    "next/core-web-vitals",
+    "next"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "settings": {
+    "react": {
+      "pragma": "React",
+      "version": "detect"
+    }
+  },
+  "plugins": [
+    "react",
+    "react-hooks",
+    "@typescript-eslint"
+  ],
+  "rules": {
+    "consistent-return": "error",
+    "@typescript-eslint/member-delimiter-style": [
+      "error",
+      {
+        "overrides": {
+          "interface": {
+            "multiline": {
+              "delimiter": "semi",
+              "requireLast": true
+            }
+          }
+        }
+      }
+    ],
+    "@typescript-eslint/no-inferrable-types": "error",
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "semi": [
+      "error",
+      "always"
+    ],
+    "@typescript-eslint/no-empty-function": "error",
+    "@typescript-eslint/no-explicit-any": "error",
+    "react/display-name": "error",
+    "react/no-unescaped-entities": "error",
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_"
+      }
+    ]
+  }
 }

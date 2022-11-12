@@ -1,4 +1,4 @@
-import Head from 'next/head'
+import Head from 'next/head';
 
 export default function Home() {
   return (
@@ -11,7 +11,8 @@ export default function Home() {
 
       <main>
         <h1>Hello world</h1>
+        <span>Welcome to ESF Global Search demo</span>
       </main>
     </div>
-  )
+  );
 }

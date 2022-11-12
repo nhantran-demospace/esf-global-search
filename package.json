@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prepare": "husky install",
+    "pre-commit": "next lint --fix"
   },
   "dependencies": {
     "@tremor/react": "^1.1.4",
@@ -19,5 +21,14 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "typescript": "4.8.4"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.42.1",
+    "@typescript-eslint/parser": "^5.42.1",
+    "autoprefixer": "^10.4.13",
+    "eslint-plugin-react": "^7.31.10",
+    "husky": "^8.0.2",
+    "postcss": "^8.4.19",
+    "tailwindcss": "^3.2.4"
   }
 }
