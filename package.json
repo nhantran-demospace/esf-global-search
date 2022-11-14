@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "prepare": "husky install",
-    "pre-commit": "prettier --config .prettierrc --write ./**/*.{js,ts,jsx,tsx} && next lint --fix"
+    "pre-commit": "prettier --config .prettierrc --write ./{components,pages}/*.{js,ts,jsx,tsx} && next lint --fix"
   },
   "dependencies": {
     "@tremor/react": "^1.1.4",
