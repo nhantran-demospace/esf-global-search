@@ -11,6 +11,7 @@
     "pre-commit": "prettier --config .prettierrc --write ./{components,pages}/*.{js,ts,jsx,tsx} && next lint --fix"
   },
   "dependencies": {
+    "@heroicons/react": "^2.0.13",
     "@tremor/react": "^1.1.4",
     "@types/node": "18.11.9",
     "@types/react": "18.0.25",
