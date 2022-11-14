@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "prepare": "husky install",
-    "pre-commit": "next lint --fix"
+    "pre-commit": "prettier --config .prettierrc --write ./**/*.{js,ts,jsx,tsx} && next lint --fix"
   },
   "dependencies": {
     "@tremor/react": "^1.1.4",
@@ -26,9 +26,12 @@
     "@typescript-eslint/eslint-plugin": "^5.42.1",
     "@typescript-eslint/parser": "^5.42.1",
     "autoprefixer": "^10.4.13",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.31.10",
     "husky": "^8.0.2",
     "postcss": "^8.4.19",
+    "prettier": "^2.7.1",
     "tailwindcss": "^3.2.4"
   }
 }
