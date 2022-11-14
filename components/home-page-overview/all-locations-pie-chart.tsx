@@ -1,7 +1,5 @@
 import {
   BadgeDelta,
-  Card,
-  DeltaType,
   DonutChart,
   Dropdown,
   DropdownItem,
