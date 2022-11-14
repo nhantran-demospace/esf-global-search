@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import { useState } from 'react';
-import { Tab, TabList } from '@tremor/react';
+import { Toggle, ToggleItem } from '@tremor/react';
 
 import HomePageOverview from 'components/home-page-overview';
 import HomePageDetail from 'components/home-page-detail';
@@ -22,14 +22,16 @@ export default function Home() {
       </Head>
       <Header />
       <main className="bg-slate-50 p-6 sm:p-10">
-        <TabList
+        <Toggle
           defaultValue={HomePageView.Overview}
           handleSelect={(value) => setSelectedView(value)}
-          marginTop="mt-6"
         >
-          <Tab value={HomePageView.Overview} text={HomePageView.Overview} />
-          <Tab value={HomePageView.Detail} text={HomePageView.Detail} />
-        </TabList>
+          <ToggleItem
+            value={HomePageView.Overview}
+            text={HomePageView.Overview}
+          />
+          <ToggleItem value={HomePageView.Detail} text={HomePageView.Detail} />
+        </Toggle>
         {selectedView === HomePageView.Overview ? (
           <HomePageOverview />
         ) : (
