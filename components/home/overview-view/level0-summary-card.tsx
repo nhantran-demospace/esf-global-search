@@ -9,14 +9,15 @@ import {
   Legend,
   List,
   ListItem,
-  Title
+  Title,
+  Card
 } from '@tremor/react';
 import { useEffect, useState } from 'react';
 
 import { regions, cities } from 'mocks';
 import { valueFormatter, filterByRegion } from 'helpers';
 
-export default function AllLocationsPieChart() {
+export default function Level0SummaryCard() {
   const [selectedRegion, setSelectedRegion] = useState('all');
   const [filteredData, setFilteredData] = useState(cities);
 
@@ -26,7 +27,7 @@ export default function AllLocationsPieChart() {
   }, [selectedRegion]);
 
   return (
-    <>
+    <Card>
       <Flex
         spaceX="space-x-8"
         justifyContent="justify-start"
@@ -76,6 +77,6 @@ export default function AllLocationsPieChart() {
           </List>
         </Col>
       </ColGrid>
-    </>
+    </Card>
   );
 }

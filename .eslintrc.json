@@ -53,7 +53,7 @@
       "error",
       "always"
     ],
-    "@typescript-eslint/no-empty-function": "error",
+    "@typescript-eslint/no-empty-function": "warn",
     "@typescript-eslint/no-explicit-any": "error",
     "react/display-name": "error",
     "react/no-unescaped-entities": "error",
