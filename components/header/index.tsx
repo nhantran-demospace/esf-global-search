@@ -2,9 +2,9 @@ import { Navbar, Dropdown, Avatar } from 'flowbite-react';
 
 export default function Header() {
   return (
-    <Navbar fluid={true} className="bg-teal-600 text-white">
+    <Navbar fluid={true}>
       <Navbar.Brand href="#">
-        <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
+        <span className="self-center whitespace-nowrap text-xl font-semibold">
           eShopFloor
         </span>
       </Navbar.Brand>
@@ -25,16 +25,10 @@ export default function Header() {
         <Navbar.Toggle />
       </div>
       <Navbar.Collapse>
-        <Navbar.Link href="/#" className="text-white">
-          eSOPs
-        </Navbar.Link>
-        <Navbar.Link href="/#" className="text-white">
-          eLogs
-        </Navbar.Link>
-        <Navbar.Link href="/#" className="text-white">
-          Notifications
-        </Navbar.Link>
-        <Navbar.Link href="" active={true} className="text-white">
+        <Navbar.Link href="/#">eSOPs</Navbar.Link>
+        <Navbar.Link href="/#">eLogs</Navbar.Link>
+        <Navbar.Link href="/#">Notifications</Navbar.Link>
+        <Navbar.Link href="" active={true}>
           Global Search
         </Navbar.Link>
       </Navbar.Collapse>
