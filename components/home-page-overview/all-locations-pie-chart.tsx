@@ -4,6 +4,8 @@ import {
   Dropdown,
   DropdownItem,
   Flex,
+  ColGrid,
+  Col,
   Legend,
   List,
   ListItem,
@@ -44,30 +46,36 @@ export default function AllLocationsPieChart() {
           ))}
         </Dropdown>
       </Flex>
-      <Legend
-        categories={filteredData.map((city) => city.name)}
-        marginTop="mt-6"
-      />
-      <DonutChart
-        data={filteredData}
-        category="sales"
-        dataKey="name"
-        valueFormatter={valueFormatter}
-        height="h-72"
-        marginTop="mt-6"
-      />
-      <List marginTop="mt-6">
-        {filteredData.map((city) => (
-          <ListItem key={city.name}>
-            {city.name}
-            <BadgeDelta
-              deltaType={city.deltaType}
-              text={city.delta}
-              size="xs"
-            />
-          </ListItem>
-        ))}
-      </List>
+      <ColGrid numCols={2}>
+        <Col>
+          <Legend
+            categories={filteredData.map((city) => city.name)}
+            marginTop="mt-6"
+          />
+          <DonutChart
+            data={filteredData}
+            category="sales"
+            dataKey="name"
+            valueFormatter={valueFormatter}
+            height="h-72"
+            marginTop="mt-6"
+          />
+        </Col>
+        <Col>
+          <List marginTop="mt-6">
+            {filteredData.map((city) => (
+              <ListItem key={city.name}>
+                {city.name}
+                <BadgeDelta
+                  deltaType={city.deltaType}
+                  text={city.delta}
+                  size="xs"
+                />
+              </ListItem>
+            ))}
+          </List>
+        </Col>
+      </ColGrid>
     </>
   );
 }
