@@ -1,9 +1,5 @@
 import {
   BadgeDelta,
-  DonutChart,
-  Dropdown,
-  DropdownItem,
-  Flex,
   ColGrid,
   Col,
   Legend,
@@ -12,66 +8,50 @@ import {
   Title,
   Card
 } from '@tremor/react';
-import { useEffect, useState } from 'react';
 
-import { regions, cities } from 'mocks';
-import { valueFormatter, filterByRegion } from 'helpers';
+import {
+  getLevel1LocationsMatchedWithLevel0,
+  getLocationById
+} from 'helpers/location.helper';
+
+import { useAppSelector } from 'hooks';
+import { selectSelectedLevel0Id } from 'slices/location.slice';
 
 export default function Level0SummaryCard() {
-  const [selectedRegion, setSelectedRegion] = useState('all');
-  const [filteredData, setFilteredData] = useState(cities);
-
-  useEffect(() => {
-    const data = cities;
-    setFilteredData(filterByRegion(selectedRegion, data));
-  }, [selectedRegion]);
+  const selectedLevel0Id = useAppSelector(selectSelectedLevel0Id);
+  const selectedLevel0Name = selectedLevel0Id
+    ? getLocationById(selectedLevel0Id).locationName
+    : '';
+  const level1Locations = selectedLevel0Id
+    ? getLevel1LocationsMatchedWithLevel0(selectedLevel0Id)
+    : [];
 
   return (
     <Card>
-      <Flex
-        spaceX="space-x-8"
-        justifyContent="justify-start"
-        alignItems="items-center"
-      >
-        <Title>Sales</Title>
-        <Dropdown
-          handleSelect={(value) => setSelectedRegion(value)}
-          placeholder="Region Selection"
-        >
-          {regions.map((region) => (
-            <DropdownItem
-              key={region.key}
-              value={region.key}
-              text={region.name}
-            />
-          ))}
-        </Dropdown>
-      </Flex>
-      <ColGrid numCols={2}>
-        <Col>
+      <Title>{selectedLevel0Name}</Title>
+      <ColGrid numCols={3} gapX={'gap-x-4'}>
+        <Col numColSpan={1}>
           <Legend
-            categories={filteredData.map((city) => city.name)}
+            categories={level1Locations.map(
+              (location) => location.locationName
+            )}
             marginTop="mt-6"
           />
-          <DonutChart
-            data={filteredData}
-            category="sales"
-            dataKey="name"
-            valueFormatter={valueFormatter}
-            height="h-72"
-            marginTop="mt-6"
-          />
+          {/*<DonutChart*/}
+          {/*  data={level1Locations}*/}
+          {/*  category="sales"*/}
+          {/*  dataKey="locationName"*/}
+          {/*  valueFormatter={valueFormatter}*/}
+          {/*  height="h-72"*/}
+          {/*  marginTop="mt-6"*/}
+          {/*/>*/}
         </Col>
-        <Col>
+        <Col numColSpan={2}>
           <List marginTop="mt-6">
-            {filteredData.map((city) => (
-              <ListItem key={city.name}>
-                {city.name}
-                <BadgeDelta
-                  deltaType={city.deltaType}
-                  text={city.delta}
-                  size="xs"
-                />
+            {level1Locations.map((location) => (
+              <ListItem key={location.locationName}>
+                {location.locationName}
+                <BadgeDelta text={location.locationName} size="xs" />
               </ListItem>
             ))}
           </List>

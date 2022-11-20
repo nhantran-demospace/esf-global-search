@@ -6,7 +6,7 @@ import HomePageDetail from 'components/home/detail-view';
 import LocationSelectBar from 'components/home/control-bar';
 import Header from 'components/header';
 
-import { HomePageView } from 'types';
+import { HomePageView } from 'enums';
 
 export default function Home() {
   const [selectedView, setSelectedView] = useState<HomePageView>(

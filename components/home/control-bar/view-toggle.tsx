@@ -1,6 +1,6 @@
 import { TabList, Tab } from '@tremor/react';
 
-import { HomePageView } from 'types';
+import { HomePageView } from 'enums';
 
 interface HomePageViewToggleProps {
   onViewSelected: (view: HomePageView) => void;
