@@ -3,7 +3,6 @@ import {
   Footer,
   ButtonInline,
   Card,
-  DeltaType,
   MultiSelectBox,
   MultiSelectBoxItem,
   Table,
@@ -16,121 +15,46 @@ import {
 } from '@tremor/react';
 import { ArrowRightIcon } from '@heroicons/react/20/solid';
 
-import { Location } from 'models/location.model';
+import { Level1Info, Location } from 'models/location.model';
 import { useState } from 'react';
+import { getLevel2Locations } from 'helpers/location.helper';
 
 interface level1DetailCardProps {
-  location: Location;
+  level1: Location;
 }
 
-type SalesPerson = {
-  name: string;
-  leads: number;
-  sales: string;
-  quota: string;
-  variance: string;
-  region: string;
-  status: string;
-  deltaType: DeltaType;
-};
-
-const salesPeople: SalesPerson[] = [
-  {
-    name: 'Peter Doe',
-    leads: 45,
-    sales: '1,000,000',
-    quota: '1,200,000',
-    variance: 'low',
-    region: 'Region A',
-    status: 'overperforming',
-    deltaType: 'moderateIncrease'
-  },
-  {
-    name: 'Lena Whitehouse',
-    leads: 35,
-    sales: '900,000',
-    quota: '1,000,000',
-    variance: 'low',
-    region: 'Region B',
-    status: 'average',
-    deltaType: 'unchanged'
-  },
-  {
-    name: 'Phil Less',
-    leads: 52,
-    sales: '930,000',
-    quota: '1,000,000',
-    variance: 'medium',
-    region: 'Region C',
-    status: 'underperforming',
-    deltaType: 'moderateDecrease'
-  },
-  {
-    name: 'John Camper',
-    leads: 22,
-    sales: '390,000',
-    quota: '250,000',
-    variance: 'low',
-    region: 'Region A',
-    status: 'overperforming',
-    deltaType: 'increase'
-  },
-  {
-    name: 'Max Balmoore',
-    leads: 49,
-    sales: '860,000',
-    quota: '750,000',
-    variance: 'low',
-    region: 'Region B',
-    status: 'overperforming',
-    deltaType: 'increase'
-  },
-  {
-    name: 'Peter Moore',
-    leads: 82,
-    sales: '1,460,000',
-    quota: '1,500,000',
-    variance: 'low',
-    region: 'Region A',
-    status: 'average',
-    deltaType: 'unchanged'
-  },
-  {
-    name: 'Joe Sachs',
-    leads: 49,
-    sales: '1,230,000',
-    quota: '1,800,000',
-    variance: 'medium',
-    region: 'Region B',
-    status: 'underperforming',
-    deltaType: 'moderateDecrease'
-  }
-];
-
 export default function Level1DetailCard({
-  location: { locationName }
+  level1: { locationName, locationId: level1Id, levelInfo: level1Info }
 }: level1DetailCardProps) {
-  const [selectedNames, setSelectedNames] = useState<string[]>([]);
+  const [selectedLevel2Ids, setSelectedLevel2Ids] = useState<number[]>([]);
 
-  const isSalesPersonSelected = (salesPerson: SalesPerson) =>
-    selectedNames.includes(salesPerson.name) || selectedNames.length === 0;
+  const isLevel2Selected = (level2: Location) =>
+    selectedLevel2Ids.includes(level2.locationId) ||
+    selectedLevel2Ids.length === 0;
+
+  const level2Locations = getLevel2Locations(
+    (level1Info as Level1Info)?.level0Id,
+    level1Id
+  );
 
   return (
     <Card>
       <Flex justifyContent={'justify-between'}>
         <Title>{locationName}</Title>
         <MultiSelectBox
-          handleSelect={(value) => setSelectedNames(value)}
+          handleSelect={(value) => setSelectedLevel2Ids(value)}
           placeholder="Select Level 2"
           maxWidth="max-w-xs"
         >
-          {salesPeople.map((item) => (
-            <MultiSelectBoxItem
-              key={item.name}
-              value={item.name}
-              text={item.name}
-            />
-          ))}
+          {level2Locations.map(
+            ({ locationId: level2Id, locationName: level2Name }) => (
+              <MultiSelectBoxItem
+                key={`${level2Id}-${level2Name}`}
+                value={level2Id}
+                text={level2Name}
+              />
+            )
+          )}
         </MultiSelectBox>
       </Flex>
       <Table marginTop="mt-4">
@@ -148,14 +72,14 @@ export default function Level1DetailCard({
         </TableHead>
 
         <TableBody>
-          {salesPeople
-            .filter((item) => isSalesPersonSelected(item))
-            .map((item) => (
-              <TableRow key={item.name}>
-                <TableCell>{item.name}</TableCell>
-                <TableCell textAlignment="text-right">{item.leads}</TableCell>
-                <TableCell textAlignment="text-right">{item.sales}</TableCell>
-                <TableCell textAlignment="text-right">{item.quota}</TableCell>
+          {level2Locations
+            .filter((level2) => isLevel2Selected(level2))
+            .map(({ locationId: level2Id, locationName: level2Name }) => (
+              <TableRow key={`${level2Id}-${level2Name}`}>
+                <TableCell>{level2Name}</TableCell>
+                <TableCell textAlignment="text-right">0</TableCell>
+                <TableCell textAlignment="text-right">0</TableCell>
+                <TableCell textAlignment="text-right">0</TableCell>
               </TableRow>
             ))}
         </TableBody>

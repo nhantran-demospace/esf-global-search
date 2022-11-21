@@ -9,10 +9,7 @@ import {
   Card
 } from '@tremor/react';
 
-import {
-  getLevel1LocationsMatchedWithLevel0,
-  getLocationById
-} from 'helpers/location.helper';
+import { getLevel1Locations, getLocationById } from 'helpers/location.helper';
 
 import { useAppSelector } from 'hooks';
 import { selectSelectedLevel0Id } from 'slices/location.slice';
@@ -22,8 +19,8 @@ export default function Level0SummaryCard() {
   const selectedLevel0Name = selectedLevel0Id
     ? getLocationById(selectedLevel0Id).locationName
     : '';
-  const level1Locations = selectedLevel0Id
-    ? getLevel1LocationsMatchedWithLevel0(selectedLevel0Id)
+  const allLevel1Locations = selectedLevel0Id
+    ? getLevel1Locations(selectedLevel0Id)
     : [];
 
   return (
@@ -32,23 +29,13 @@ export default function Level0SummaryCard() {
       <ColGrid numCols={3} gapX={'gap-x-4'}>
         <Col numColSpan={1}>
           <Legend
-            categories={level1Locations.map(
-              (location) => location.locationName
-            )}
+            categories={allLevel1Locations.map((level1) => level1.locationName)}
             marginTop="mt-6"
           />
-          {/*<DonutChart*/}
-          {/*  data={level1Locations}*/}
-          {/*  category="sales"*/}
-          {/*  dataKey="locationName"*/}
-          {/*  valueFormatter={valueFormatter}*/}
-          {/*  height="h-72"*/}
-          {/*  marginTop="mt-6"*/}
-          {/*/>*/}
         </Col>
         <Col numColSpan={2}>
           <List marginTop="mt-6">
-            {level1Locations.map((location) => (
+            {allLevel1Locations.map((location) => (
               <ListItem key={location.locationName}>
                 {location.locationName}
                 <BadgeDelta text={location.locationName} size="xs" />

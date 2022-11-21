@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 import {
   getAllLevel0Locations,
-  getLevel1LocationsMatchedWithLevel0
+  getLevel1Locations
 } from 'helpers/location.helper';
 
 import { useAppDispatch, useAppSelector } from 'hooks';
@@ -47,7 +47,7 @@ const Level1SelectBox = ({
   level0,
   onLevel1Selected
 }: Level1SelectBoxProps) => {
-  const level1Locations = getLevel1LocationsMatchedWithLevel0(level0);
+  const level1Locations = getLevel1Locations(level0);
 
   return (
     <SelectBox

@@ -10,11 +10,20 @@ export const getAllLevel0Locations = () =>
     (location) => location.levelInfo.atLevel === LocationLevel.LEVEL0
   );
 
-export const getLevel1LocationsMatchedWithLevel0 = (level0Id: number) => {
+export const getLevel1Locations = (level0Id: number) => {
   return allLocations.filter(
     (location) =>
       location.levelInfo.atLevel === LocationLevel.LEVEL1 &&
       location.levelInfo.level0Id === level0Id
+  );
+};
+
+export const getLevel2Locations = (level0Id: number, level1Id: number) => {
+  return allLocations.filter(
+    (location) =>
+      location.levelInfo.atLevel === LocationLevel.LEVEL2 &&
+      location.levelInfo.level0Id === level0Id &&
+      location.levelInfo.level1Id === level1Id
   );
 };
 
