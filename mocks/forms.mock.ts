@@ -1,6 +1,6 @@
 import { Form } from 'models/form.model';
 
-export const forms: Form[] = [
+export const allForms: Form[] = [
   {
     formId: 1,
     formName: 'WWTP: Daily Checks Checksheet',

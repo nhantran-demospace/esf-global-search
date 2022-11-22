@@ -26,12 +26,15 @@ export const Level1Table = ({ matchingLevel1Locations }: Level1TableProps) => {
       <TableHead>
         <TableRow>
           <TableHeaderCell>Level 1</TableHeaderCell>
-          <TableHeaderCell textAlignment="text-right">Open</TableHeaderCell>
-          <TableHeaderCell textAlignment="text-right">
+          <TableHeaderCell textAlignment={'text-right'}>Open</TableHeaderCell>
+          <TableHeaderCell textAlignment={'text-right'}>
             Pending Update
           </TableHeaderCell>
-          <TableHeaderCell textAlignment="text-right">
+          <TableHeaderCell textAlignment={'text-right'}>
             Void Pending Actions
+          </TableHeaderCell>
+          <TableHeaderCell textAlignment={'text-right'}>
+            Grand Total
           </TableHeaderCell>
         </TableRow>
       </TableHead>
@@ -41,15 +44,16 @@ export const Level1Table = ({ matchingLevel1Locations }: Level1TableProps) => {
           ({ locationId: level1Id, locationName: level1Name }) => (
             <TableRow key={`${level1Id}-${level1Name}`}>
               <TableCell>{level1Name}</TableCell>
-              <TableCell textAlignment="text-right">
+              <TableCell textAlignment={'text-right'}>
                 {locationStatisticDictionary[level1Id].openCount}
               </TableCell>
-              <TableCell textAlignment="text-right">
+              <TableCell textAlignment={'text-right'}>
                 {locationStatisticDictionary[level1Id].pendingUpdateCount}
               </TableCell>
-              <TableCell textAlignment="text-right">
+              <TableCell textAlignment={'text-right'}>
                 {locationStatisticDictionary[level1Id].voidPendingActionsCount}
               </TableCell>
+              <TableCell textAlignment={'text-right'}>0</TableCell>
             </TableRow>
           )
         )}
