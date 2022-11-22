@@ -31,7 +31,7 @@ const Level0SelectBox = ({ onLevel0Selected }: Level0SelectBoxProps) => {
       handleSelect={(locationId) => onLevel0Selected(locationId)}
       defaultValue={undefined}
       placeholder={'Select level 0'}
-      maxWidth={'max-w-sm'}
+      maxWidth={'max-w-xs'}
     >
       {allLevel0Locations.map(
         ({ locationId, locationName, levelInfo: { atLevel } }) => (
@@ -63,7 +63,7 @@ const Level1SelectBox = ({
       handleSelect={(locationId) => onLevel1Selected(locationId)}
       defaultValues={[]}
       placeholder={'Select level 1'}
-      maxWidth={'max-w-sm'}
+      maxWidth={'max-w-xs'}
     >
       {level1Locations.map(
         ({ locationId, locationName, levelInfo: { atLevel } }) => (

@@ -35,7 +35,7 @@ export default function Level1DetailCard({
         <MultiSelectBox
           handleSelect={(value) => setSelectedLevel2Ids(value)}
           placeholder="Select Level 2"
-          maxWidth="max-w-xs"
+          maxWidth="max-w-0"
         >
           {allLevel2Locations.map(
             ({ locationId: level2Id, locationName: level2Name }) => (
@@ -48,7 +48,10 @@ export default function Level1DetailCard({
           )}
         </MultiSelectBox>
       </Flex>
-      <Level2Table allLevel2Locations={allLevel2Locations} selectedLevel2Ids={selectedLevel2Ids}/>
+      <Level2Table
+        allLevel2Locations={allLevel2Locations}
+        selectedLevel2Ids={selectedLevel2Ids}
+      />
       <Footer>
         <ButtonInline
           size="sm"
