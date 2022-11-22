@@ -1,9 +1,7 @@
-import {
-  Location,
-  LocationDictonary,
-  LocationLevel
-} from 'models/location.model';
+import { Location, LocationDictionary, LocationLevel, LocationStatisticDictionary } from 'models/location.model';
 import { allLocations } from 'mocks/locations.mock';
+import { allLogs } from 'mocks/logs.mock';
+import { Log, LogStatus } from 'models/log.model';
 
 export const getAllLevel0Locations = () =>
   allLocations.filter(
@@ -27,18 +25,33 @@ export const getLevel2Locations = (level0Id: number, level1Id: number) => {
   );
 };
 
-const buildLocationDictionary = (
+export const buildLocationDictionary = (
   allLocations: Location[]
-): LocationDictonary => {
-  const dict: LocationDictonary = {};
+): LocationDictionary => {
+  const dict: LocationDictionary = {};
   allLocations.forEach((location) => {
     dict[location.locationId] = location;
   });
   return dict;
 };
 
-const locationDictionary = buildLocationDictionary(allLocations);
-
 export const getLocationById = (locationId: number) => {
   return locationDictionary[locationId];
 };
+
+export const buildLocationStatisticDictionary = (allLocations: Location[], allLogs: Log[]) => {
+  const dict: LocationStatisticDictionary = {};
+  allLocations.forEach(({locationId}) => {
+    dict[locationId] = {
+      openCount: allLogs.filter(log => log.locationId === locationId && log.status === LogStatus.OPEN).length,
+      pendingUpdateCount: allLogs.filter(log => log.locationId === locationId && log.status === LogStatus.PENDING_UPDATE).length,
+      voidPendingActionsCount: allLogs.filter(log => log.locationId === locationId && log.status === LogStatus.VOID_PENDING_ACTIONS).length,
+    };
+  });
+  return dict;
+};
+
+export const locationDictionary = buildLocationDictionary(allLocations);
+export const locationStatisticDictionary = buildLocationStatisticDictionary(allLocations, allLogs);
+
+console.log('locationStatisticDictionary', locationStatisticDictionary);

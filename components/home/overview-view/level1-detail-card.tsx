@@ -17,7 +17,7 @@ import { ArrowRightIcon } from '@heroicons/react/20/solid';
 
 import { Level1Info, Location } from 'models/location.model';
 import { useState } from 'react';
-import { getLevel2Locations } from 'helpers/location.helper';
+import { getLevel2Locations, locationStatisticDictionary } from 'helpers/location.helper';
 
 interface level1DetailCardProps {
   level1: Location;
@@ -77,9 +77,9 @@ export default function Level1DetailCard({
             .map(({ locationId: level2Id, locationName: level2Name }) => (
               <TableRow key={`${level2Id}-${level2Name}`}>
                 <TableCell>{level2Name}</TableCell>
-                <TableCell textAlignment="text-right">0</TableCell>
-                <TableCell textAlignment="text-right">0</TableCell>
-                <TableCell textAlignment="text-right">0</TableCell>
+                <TableCell textAlignment="text-right">{locationStatisticDictionary[level2Id].openCount}</TableCell>
+                <TableCell textAlignment="text-right">{locationStatisticDictionary[level2Id].pendingUpdateCount}</TableCell>
+                <TableCell textAlignment="text-right">{locationStatisticDictionary[level2Id].voidPendingActionsCount}</TableCell>
               </TableRow>
             ))}
         </TableBody>

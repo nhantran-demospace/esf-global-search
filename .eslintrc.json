@@ -63,6 +63,6 @@
         "argsIgnorePattern": "^_"
       }
     ],
-    "prettier/prettier": "error"
+    "prettier/prettier": "off"
   }
 }
