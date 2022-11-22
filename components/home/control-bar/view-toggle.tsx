@@ -1,4 +1,4 @@
-import { TabList, Tab } from '@tremor/react';
+import { Toggle, ToggleItem } from '@tremor/react';
 
 import { HomePageView } from 'enums';
 
@@ -10,13 +10,13 @@ export default function ViewToggle({
   onViewSelected
 }: HomePageViewToggleProps) {
   return (
-    <TabList
+    <Toggle
       defaultValue={HomePageView.Overview}
       handleSelect={(value) => onViewSelected(value)}
       color={'teal'}
     >
-      <Tab value={HomePageView.Overview} text={HomePageView.Overview} />
-      <Tab value={HomePageView.Detail} text={HomePageView.Detail} />
-    </TabList>
+      <ToggleItem value={HomePageView.Overview} text={HomePageView.Overview} />
+      <ToggleItem value={HomePageView.Detail} text={HomePageView.Detail} />
+    </Toggle>
   );
 }
