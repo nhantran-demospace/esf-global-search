@@ -5,19 +5,14 @@ import {
   Card,
   MultiSelectBox,
   MultiSelectBoxItem,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  TableHeaderCell,
   Flex
 } from '@tremor/react';
 import { ArrowRightIcon } from '@heroicons/react/20/solid';
 
 import { Level1Info, Location } from 'models/location.model';
 import { useState } from 'react';
-import { getLevel2Locations, locationStatisticDictionary } from 'helpers/location.helper';
+import { getLevel2Locations } from 'helpers/location.helper';
+import { Level2Table } from 'components/home/overview-view/level2-table';
 
 interface level1DetailCardProps {
   level1: Location;
@@ -28,11 +23,7 @@ export default function Level1DetailCard({
 }: level1DetailCardProps) {
   const [selectedLevel2Ids, setSelectedLevel2Ids] = useState<number[]>([]);
 
-  const isLevel2Selected = (level2: Location) =>
-    selectedLevel2Ids.includes(level2.locationId) ||
-    selectedLevel2Ids.length === 0;
-
-  const level2Locations = getLevel2Locations(
+  const allLevel2Locations = getLevel2Locations(
     (level1Info as Level1Info)?.level0Id,
     level1Id
   );
@@ -46,7 +37,7 @@ export default function Level1DetailCard({
           placeholder="Select Level 2"
           maxWidth="max-w-xs"
         >
-          {level2Locations.map(
+          {allLevel2Locations.map(
             ({ locationId: level2Id, locationName: level2Name }) => (
               <MultiSelectBoxItem
                 key={`${level2Id}-${level2Name}`}
@@ -57,34 +48,7 @@ export default function Level1DetailCard({
           )}
         </MultiSelectBox>
       </Flex>
-      <Table marginTop="mt-4">
-        <TableHead>
-          <TableRow>
-            <TableHeaderCell>Level 2</TableHeaderCell>
-            <TableHeaderCell textAlignment="text-right">Open</TableHeaderCell>
-            <TableHeaderCell textAlignment="text-right">
-              Pending Update
-            </TableHeaderCell>
-            <TableHeaderCell textAlignment="text-right">
-              Void Pending Actions
-            </TableHeaderCell>
-          </TableRow>
-        </TableHead>
-
-        <TableBody>
-          {level2Locations
-            .filter((level2) => isLevel2Selected(level2))
-            .map(({ locationId: level2Id, locationName: level2Name }) => (
-              <TableRow key={`${level2Id}-${level2Name}`}>
-                <TableCell>{level2Name}</TableCell>
-                <TableCell textAlignment="text-right">{locationStatisticDictionary[level2Id].openCount}</TableCell>
-                <TableCell textAlignment="text-right">{locationStatisticDictionary[level2Id].pendingUpdateCount}</TableCell>
-                <TableCell textAlignment="text-right">{locationStatisticDictionary[level2Id].voidPendingActionsCount}</TableCell>
-              </TableRow>
-            ))}
-        </TableBody>
-      </Table>
-
+      <Level2Table allLevel2Locations={allLevel2Locations} selectedLevel2Ids={selectedLevel2Ids}/>
       <Footer>
         <ButtonInline
           size="sm"

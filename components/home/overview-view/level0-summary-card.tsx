@@ -1,18 +1,10 @@
-import {
-  BadgeDelta,
-  ColGrid,
-  Col,
-  Legend,
-  List,
-  ListItem,
-  Title,
-  Card
-} from '@tremor/react';
+import { ColGrid, Col, Legend, Title, Card } from '@tremor/react';
 
 import { getLevel1Locations, getLocationById } from 'helpers/location.helper';
 
 import { useAppSelector } from 'hooks';
 import { selectSelectedLevel0Id } from 'slices/location.slice';
+import { Level1Table } from './level1-table';
 
 export default function Level0SummaryCard() {
   const selectedLevel0Id = useAppSelector(selectSelectedLevel0Id);
@@ -34,14 +26,7 @@ export default function Level0SummaryCard() {
           />
         </Col>
         <Col numColSpan={2}>
-          <List marginTop="mt-6">
-            {allLevel1Locations.map((location) => (
-              <ListItem key={location.locationName}>
-                {location.locationName}
-                <BadgeDelta text={location.locationName} size="xs" />
-              </ListItem>
-            ))}
-          </List>
+          <Level1Table allLevel1Locations={allLevel1Locations} />
         </Col>
       </ColGrid>
     </Card>
