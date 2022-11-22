@@ -1,4 +1,10 @@
-import { SelectBox, SelectBoxItem, Flex } from '@tremor/react';
+import {
+  MultiSelectBox,
+  MultiSelectBoxItem,
+  SelectBox,
+  SelectBoxItem,
+  Flex
+} from '@tremor/react';
 import { useState } from 'react';
 
 import {
@@ -9,7 +15,9 @@ import {
 import { useAppDispatch, useAppSelector } from 'hooks';
 import {
   persistSelectedLevel0Id,
-  selectSelectedLevel0Id
+  selectSelectedLevel0Id,
+  persistSelectedLevel1Ids,
+  selectSelectedLevel1Ids
 } from 'slices/location.slice';
 
 interface Level0SelectBoxProps {
@@ -40,7 +48,8 @@ const Level0SelectBox = ({ onLevel0Selected }: Level0SelectBoxProps) => {
 
 interface Level1SelectBoxProps {
   level0: number;
-  onLevel1Selected: (locationId: number) => void;
+  onLevel1Selected: (ids: number[]) => void;
+  selectedLevel1Ids: number[];
 }
 
 const Level1SelectBox = ({
@@ -50,42 +59,50 @@ const Level1SelectBox = ({
   const level1Locations = getLevel1Locations(level0);
 
   return (
-    <SelectBox
+    <MultiSelectBox
       handleSelect={(locationId) => onLevel1Selected(locationId)}
-      defaultValue={undefined}
+      defaultValues={[]}
       placeholder={'Select level 1'}
       maxWidth={'max-w-sm'}
     >
       {level1Locations.map(
         ({ locationId, locationName, levelInfo: { atLevel } }) => (
-          <SelectBoxItem
+          <MultiSelectBoxItem
             key={`${locationId}-${locationName}-${atLevel}`}
             value={locationId}
             text={locationName}
           />
         )
       )}
-    </SelectBox>
+    </MultiSelectBox>
   );
 };
 
 const LocationBox = () => {
   const dispatch = useAppDispatch();
   const initialSelectedLevel0Id = useAppSelector(selectSelectedLevel0Id);
+  const initialSelectedLevel1Ids = useAppSelector(selectSelectedLevel1Ids);
 
   const [selectedLevel0Id, setSelectedLevel0Id] = useState<number | undefined>(
     initialSelectedLevel0Id
   );
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [selectedLevel1Id, setSelectedLevel1Id] = useState<number>();
+  const [selectedLevel1Ids, setSelectedLevel1Ids] = useState<number[]>(
+    initialSelectedLevel1Ids
+  );
 
   const onLevel0Selected = (locationId: number) => {
     setSelectedLevel0Id(locationId);
     dispatch(persistSelectedLevel0Id(locationId));
+    dispatch(
+      persistSelectedLevel1Ids(
+        getLevel1Locations(locationId).map(({ locationId }) => locationId)
+      )
+    );
   };
 
-  const onLevel1Selected = (locationId: number) => {
-    setSelectedLevel1Id(locationId);
+  const onLevel1Selected = (ids: number[]) => {
+    setSelectedLevel1Ids(ids);
+    dispatch(persistSelectedLevel1Ids(selectedLevel1Ids));
   };
 
   if (selectedLevel0Id) {
@@ -95,6 +112,7 @@ const LocationBox = () => {
         <Level1SelectBox
           level0={selectedLevel0Id}
           onLevel1Selected={onLevel1Selected}
+          selectedLevel1Ids={selectedLevel1Ids}
         />
       </Flex>
     );

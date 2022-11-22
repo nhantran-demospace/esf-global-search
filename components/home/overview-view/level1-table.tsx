@@ -8,19 +8,18 @@ import {
 } from '@tremor/react';
 import { locationStatisticDictionary } from 'helpers/location.helper';
 import { Location } from 'models/location.model';
+import { useAppSelector } from 'hooks';
+import { selectSelectedLevel1Ids } from 'slices/location.slice';
 
 interface Level1TableProps {
-  allLevel1Locations: Location[];
-  // selectedLevel2Ids: number[];
+  matchingLevel1Locations: Location[];
 }
 
-export const Level1Table = ({
-  // selectedLevel2Ids,
-  allLevel1Locations
-}: Level1TableProps) => {
-  // const isLevel2Selected = (level2: Location) =>
-  //   selectedLevel2Ids.includes(level2.locationId) ||
-  //   selectedLevel2Ids.length === 0;
+export const Level1Table = ({ matchingLevel1Locations }: Level1TableProps) => {
+  const selectedLevel1Ids = useAppSelector(selectSelectedLevel1Ids);
+  const selectedLevel1Locations = matchingLevel1Locations.filter((level1) =>
+    selectedLevel1Ids.includes(level1.locationId)
+  );
 
   return (
     <Table marginTop="mt-4">
@@ -38,9 +37,8 @@ export const Level1Table = ({
       </TableHead>
 
       <TableBody>
-        {allLevel1Locations
-          // .filter((level2) => isLevel2Selected(level2))
-          .map(({ locationId: level1Id, locationName: level1Name }) => (
+        {selectedLevel1Locations.map(
+          ({ locationId: level1Id, locationName: level1Name }) => (
             <TableRow key={`${level1Id}-${level1Name}`}>
               <TableCell>{level1Name}</TableCell>
               <TableCell textAlignment="text-right">
@@ -53,7 +51,8 @@ export const Level1Table = ({
                 {locationStatisticDictionary[level1Id].voidPendingActionsCount}
               </TableCell>
             </TableRow>
-          ))}
+          )
+        )}
       </TableBody>
     </Table>
   );

@@ -11,7 +11,7 @@ export default function Level0SummaryCard() {
   const selectedLevel0Name = selectedLevel0Id
     ? getLocationById(selectedLevel0Id).locationName
     : '';
-  const allLevel1Locations = selectedLevel0Id
+  const matchingLevel1Locations = selectedLevel0Id
     ? getLevel1Locations(selectedLevel0Id)
     : [];
 
@@ -21,12 +21,14 @@ export default function Level0SummaryCard() {
       <ColGrid numCols={3} gapX={'gap-x-4'}>
         <Col numColSpan={1}>
           <Legend
-            categories={allLevel1Locations.map((level1) => level1.locationName)}
+            categories={matchingLevel1Locations.map(
+              (level1) => level1.locationName
+            )}
             marginTop="mt-6"
           />
         </Col>
         <Col numColSpan={2}>
-          <Level1Table allLevel1Locations={allLevel1Locations} />
+          <Level1Table matchingLevel1Locations={matchingLevel1Locations} />
         </Col>
       </ColGrid>
     </Card>
