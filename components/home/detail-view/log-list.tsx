@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   Card,
   Title,
@@ -9,11 +10,16 @@ import {
   TableBody,
   TableCell,
   Color,
-  Badge
+  Badge,
+  MultiSelectBox,
+  MultiSelectBoxItem,
+  Datepicker
 } from '@tremor/react';
 
 import { logSummaryDtos } from 'helpers/log.helper';
+import { getFormById } from 'helpers/form.helper';
 import { LogStatus } from 'models/log.model';
+import { allForms } from 'mocks/forms.mock';
 
 export const colors: { [key in LogStatus]: Color } = {
   Open: 'red',
@@ -24,14 +30,69 @@ export const colors: { [key in LogStatus]: Color } = {
   Completed: 'blue'
 };
 
+const allStatuses = [
+  LogStatus.OPEN,
+  LogStatus.PARTIALLY_SUBMITTED,
+  LogStatus.PENDING_UPDATE,
+  LogStatus.VOID,
+  LogStatus.VOID_PENDING_ACTIONS,
+  LogStatus.COMPLETED
+];
+
+const allFormIds = allForms.map((form) => form.formId);
+const allFormNames = allForms.map((form) => form.formName);
+
 export default function LogList() {
+  const [selectedStatuses, setSelectedStatuses] =
+    useState<LogStatus[]>(allStatuses);
+  const [selectedFormIds, setSelectedFormIds] = useState<number[]>(allFormIds);
+
+  const filteredLogDtos = logSummaryDtos.filter(
+    (logDto) =>
+      selectedStatuses.includes(logDto.status) &&
+      selectedFormIds.includes(logDto.formId)
+  );
+
   return (
     <Card>
-      <Flex justifyContent="justify-start" spaceX="space-x-2">
+      <Flex justifyContent="justify-between">
         <Title>Log(s)</Title>
-        {/*<Badge text="8" color="gray" />*/}
+        <div className="flex space-x-4">
+          <MultiSelectBox
+            defaultValues={allStatuses}
+            handleSelect={(value) => setSelectedStatuses(value)}
+            placeholder="Select status(s)"
+            maxWidth="max-w-0"
+          >
+            {allStatuses.map((status) => (
+              <MultiSelectBoxItem
+                key={`${status}`}
+                value={status}
+                text={status}
+              />
+            ))}
+          </MultiSelectBox>
+          <MultiSelectBox
+            defaultValues={allFormNames}
+            handleSelect={(value) => setSelectedFormIds(value)}
+            placeholder="Select form name(s)"
+            maxWidth="max-w-xs"
+          >
+            {allFormIds.map((formId) => (
+              <MultiSelectBoxItem
+                key={`${formId}`}
+                value={formId}
+                text={getFormById(formId)?.formName}
+              />
+            ))}
+          </MultiSelectBox>
+          <Datepicker
+            placeholder="Select date"
+            enableRelativeDates={true}
+            maxWidth="max-w-xs"
+          />
+        </div>
       </Flex>
-      {/*<Text marginTop="mt-2">Overview of this month&apos;s purchases</Text>*/}
 
       <Table marginTop="mt-6">
         <TableHead>
@@ -53,7 +114,7 @@ export default function LogList() {
         </TableHead>
 
         <TableBody>
-          {logSummaryDtos.map(
+          {filteredLogDtos.map(
             ({
               logId,
               level0,

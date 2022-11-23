@@ -5,3 +5,5 @@ export interface Form {
   formDescription: string;
   assignedToLocationId: number;
 }
+
+export type FormDictionary = Record<number, Form>;
