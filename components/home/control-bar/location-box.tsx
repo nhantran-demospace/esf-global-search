@@ -9,15 +9,14 @@ import { useState } from 'react';
 
 import {
   getAllLevel0Locations,
-  getLevel1Locations
+  getLevel1Locations,
+  getLocationById
 } from 'helpers/location.helper';
 
-import { useAppDispatch, useAppSelector } from 'hooks';
+import { useAppDispatch } from 'hooks';
 import {
   persistSelectedLevel0Id,
-  selectSelectedLevel0Id,
-  persistSelectedLevel1Ids,
-  selectSelectedLevel1Ids
+  persistSelectedLevel1Ids
 } from 'slices/location.slice';
 
 interface Level0SelectBoxProps {
@@ -29,7 +28,6 @@ const Level0SelectBox = ({ onLevel0Selected }: Level0SelectBoxProps) => {
   return (
     <SelectBox
       handleSelect={(locationId) => onLevel0Selected(locationId)}
-      defaultValue={undefined}
       placeholder={'Select level 0'}
       maxWidth={'max-w-xs'}
     >
@@ -47,21 +45,23 @@ const Level0SelectBox = ({ onLevel0Selected }: Level0SelectBoxProps) => {
 };
 
 interface Level1SelectBoxProps {
-  level0: number;
+  level0Id: number;
   onLevel1Selected: (ids: number[]) => void;
   selectedLevel1Ids: number[];
 }
 
 const Level1SelectBox = ({
-  level0,
-  onLevel1Selected
+  level0Id,
+  onLevel1Selected,
+  selectedLevel1Ids
 }: Level1SelectBoxProps) => {
-  const level1Locations = getLevel1Locations(level0);
+  const level1Locations = selectedLevel1Ids.map((id) => getLocationById(id));
 
   return (
     <MultiSelectBox
+      key={`${level0Id}`}
       handleSelect={(locationId) => onLevel1Selected(locationId)}
-      defaultValues={[]}
+      defaultValues={level1Locations.map(({ locationId }) => locationId)}
       placeholder={'Select level 1'}
       maxWidth={'max-w-xs'}
     >
@@ -80,22 +80,21 @@ const Level1SelectBox = ({
 
 const LocationBox = () => {
   const dispatch = useAppDispatch();
-  const initialSelectedLevel0Id = useAppSelector(selectSelectedLevel0Id);
-  const initialSelectedLevel1Ids = useAppSelector(selectSelectedLevel1Ids);
 
-  const [selectedLevel0Id, setSelectedLevel0Id] = useState<number | undefined>(
-    initialSelectedLevel0Id
-  );
-  const [selectedLevel1Ids, setSelectedLevel1Ids] = useState<number[]>(
-    initialSelectedLevel1Ids
-  );
+  const [selectedLevel0Id, setSelectedLevel0Id] = useState<
+    number | undefined
+  >();
+  const [selectedLevel1Ids, setSelectedLevel1Ids] = useState<number[]>([]);
 
-  const onLevel0Selected = (locationId: number) => {
-    setSelectedLevel0Id(locationId);
-    dispatch(persistSelectedLevel0Id(locationId));
+  const onLevel0Selected = (level0Id: number) => {
+    setSelectedLevel0Id(level0Id);
+    setSelectedLevel1Ids(
+      getLevel1Locations(level0Id).map((level1) => level1.locationId)
+    );
+    dispatch(persistSelectedLevel0Id(level0Id));
     dispatch(
       persistSelectedLevel1Ids(
-        getLevel1Locations(locationId).map(({ locationId }) => locationId)
+        getLevel1Locations(level0Id).map((level1) => level1.locationId)
       )
     );
   };
@@ -110,7 +109,7 @@ const LocationBox = () => {
       <Flex justifyContent={'justify-start'} spaceX={'space-x-4'}>
         <Level0SelectBox onLevel0Selected={onLevel0Selected} />
         <Level1SelectBox
-          level0={selectedLevel0Id}
+          level0Id={selectedLevel0Id}
           onLevel1Selected={onLevel1Selected}
           selectedLevel1Ids={selectedLevel1Ids}
         />

@@ -33,6 +33,7 @@ export default function Level1DetailCard({
       <Flex justifyContent={'justify-between'}>
         <Title>{locationName}</Title>
         <MultiSelectBox
+          defaultValues={allLevel2Locations.map((level2) => level2.locationId)}
           handleSelect={(value) => setSelectedLevel2Ids(value)}
           placeholder="Select Level 2"
           maxWidth="max-w-0"
