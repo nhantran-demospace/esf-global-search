@@ -9,7 +9,6 @@ import {
   TableHeaderCell,
   TableBody,
   TableCell,
-  Color,
   Badge,
   MultiSelectBox,
   MultiSelectBoxItem,
@@ -20,31 +19,21 @@ import { logSummaryDtos } from 'helpers/log.helper';
 import { getFormById } from 'helpers/form.helper';
 import { LogStatus } from 'models/log.model';
 import { allForms } from 'mocks/forms.mock';
-
-export const colors: { [key in LogStatus]: Color } = {
-  Open: 'red',
-  'Partially Submitted': 'green',
-  'Pending Update': 'yellow',
-  Void: 'gray',
-  'Void Pending Actions': 'gray',
-  Completed: 'blue'
-};
-
-const allStatuses = [
-  LogStatus.OPEN,
-  LogStatus.PARTIALLY_SUBMITTED,
-  LogStatus.PENDING_UPDATE,
-  LogStatus.VOID,
-  LogStatus.VOID_PENDING_ACTIONS,
-  LogStatus.COMPLETED
-];
+import {
+  selectStatusFilter,
+  persistStatusFilter
+} from 'slices/log-list-filter.slice';
+import { useAppDispatch, useAppSelector } from 'hooks';
+import { allStatuses, colors } from 'app-constants';
 
 const allFormIds = allForms.map((form) => form.formId);
 const allFormNames = allForms.map((form) => form.formName);
 
 export default function LogList() {
+  const dispatch = useAppDispatch();
+  const initialStatusFilter = useAppSelector(selectStatusFilter);
   const [selectedStatuses, setSelectedStatuses] =
-    useState<LogStatus[]>(allStatuses);
+    useState<LogStatus[]>(initialStatusFilter);
   const [selectedFormIds, setSelectedFormIds] = useState<number[]>(allFormIds);
 
   const filteredLogDtos = logSummaryDtos.filter(
@@ -53,14 +42,19 @@ export default function LogList() {
       selectedFormIds.includes(logDto.formId)
   );
 
+  const onStatusSelected = (statuses: LogStatus[]) => {
+    setSelectedStatuses(statuses);
+    dispatch(persistStatusFilter(statuses));
+  };
+
   return (
     <Card>
       <Flex justifyContent="justify-between">
         <Title>Log(s)</Title>
         <div className="flex space-x-4">
           <MultiSelectBox
-            defaultValues={allStatuses}
-            handleSelect={(value) => setSelectedStatuses(value)}
+            defaultValues={initialStatusFilter}
+            handleSelect={onStatusSelected}
             placeholder="Select status(s)"
             maxWidth="max-w-0"
           >
