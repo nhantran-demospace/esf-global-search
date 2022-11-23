@@ -1,4 +1,4 @@
-import { ColGrid } from '@tremor/react';
+import { ColGrid, Title, Subtitle, Card, Flex, Block } from '@tremor/react';
 
 import {
   selectSelectedLevel0Id,
@@ -19,6 +19,17 @@ export default function HomePageOverview() {
   const selectedLevel1Locations = allLevel1Locations.filter((level1) =>
     selectedLevel1Ids.includes(level1.locationId)
   );
+
+  if (!selectedLevel0Id) {
+    return (
+      <Card>
+        <div className="text-center my-80">
+          <Title>Select a location to start</Title>
+          <Subtitle>Nothing is selected</Subtitle>
+        </div>
+      </Card>
+    );
+  }
 
   return (
     <>
