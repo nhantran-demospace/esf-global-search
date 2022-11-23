@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import {
   Table,
   TableBody,
@@ -13,12 +14,14 @@ import { LogStatus } from 'models/log.model';
 import { useAppSelector, useAppDispatch } from 'hooks';
 import { selectSelectedLevel1Ids } from 'slices/location.slice';
 import { persistStatusFilter } from 'slices/log-list-filter.slice';
+import { Path } from 'enums';
 
 interface Level1TableProps {
   matchingLevel1Locations: Location[];
 }
 
 export const Level1Table = ({ matchingLevel1Locations }: Level1TableProps) => {
+  const router = useRouter();
   const dispatch = useAppDispatch();
   const selectedLevel1Ids = useAppSelector(selectSelectedLevel1Ids);
   const selectedLevel1Locations = matchingLevel1Locations.filter((level1) =>
@@ -27,6 +30,7 @@ export const Level1Table = ({ matchingLevel1Locations }: Level1TableProps) => {
 
   const onStatisticClick = (level1Id: number, status: LogStatus) => {
     dispatch(persistStatusFilter([status]));
+    router.push(`${Path.Detail}`);
   };
 
   return (
