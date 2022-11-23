@@ -1,4 +1,4 @@
-import { ColGrid, Title, Subtitle, Card, Flex, Block } from '@tremor/react';
+import { ColGrid, Title, Subtitle, Card } from '@tremor/react';
 
 import {
   selectSelectedLevel0Id,
@@ -6,8 +6,8 @@ import {
 } from 'slices/location.slice';
 import { useAppSelector } from 'hooks';
 
-import Level0SummaryCard from 'components/home/overview-view/level0-summary-card';
-import Level1DetailCard from 'components/home/overview-view/level1-detail-card';
+import Level0SummaryCard from 'components/overview-page-container/level0-summary-card';
+import Level1DetailCard from 'components/overview-page-container/level1-detail-card';
 import { getLevel1Locations } from 'helpers/location.helper';
 
 export default function HomePageOverview() {

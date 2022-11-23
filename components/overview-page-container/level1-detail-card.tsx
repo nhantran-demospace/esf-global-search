@@ -12,7 +12,7 @@ import { ArrowRightIcon } from '@heroicons/react/20/solid';
 import { Level1Info, Location } from 'models/location.model';
 import { useState } from 'react';
 import { getLevel2Locations } from 'helpers/location.helper';
-import { Level2Table } from 'components/home/overview-view/level2-table';
+import { Level2Table } from 'components/overview-page-container/level2-table';
 
 interface level1DetailCardProps {
   level1: Location;
