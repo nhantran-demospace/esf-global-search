@@ -33,11 +33,17 @@ export default function LogList() {
   const [selectedStatuses, setSelectedStatuses] =
     useState<LogStatus[]>(initialStatusFilter);
   const [selectedFormIds, setSelectedFormIds] = useState<number[]>(allFormIds);
+  const [selectedDateRange, setSelectedDateRange] = useState<[Date, Date]>([
+    new Date(0, 0, 0),
+    new Date()
+  ]);
 
   const filteredLogDtos = logSummaryDtos.filter(
     (logDto) =>
       selectedStatuses.includes(logDto.status) &&
-      selectedFormIds.includes(logDto.formId)
+      selectedFormIds.includes(logDto.formId) &&
+      selectedDateRange[0] <= logDto.submittedDate &&
+      logDto.submittedDate <= selectedDateRange[1]
   );
 
   const onStatusSelected = (statuses: LogStatus[]) => {
@@ -47,6 +53,10 @@ export default function LogList() {
 
   const onFormNameSelected = (formIds: number[]) => {
     setSelectedFormIds(formIds);
+  };
+
+  const onSubmittedDateSelected = (startDate: Date, endDate: Date) => {
+    setSelectedDateRange([startDate, endDate]);
   };
 
   return (
@@ -62,8 +72,9 @@ export default function LogList() {
           <div>
             <Text>Submitted Date</Text>
             <Datepicker
+              handleSelect={onSubmittedDateSelected}
               enableRelativeDates={true}
-              maxWidth="max-w-xs"
+              maxWidth="max-w-md"
               marginTop={'mt-2'}
             />
           </div>
@@ -98,7 +109,8 @@ export default function LogList() {
               level2,
               formVersion,
               formName,
-              status
+              status,
+              submittedDate
             }) => (
               <TableRow key={logId}>
                 <TableCell>{level0}</TableCell>
@@ -113,7 +125,7 @@ export default function LogList() {
                 <TableCell>{''}</TableCell>
                 <TableCell>{''}</TableCell>
                 <TableCell>{''}</TableCell>
-                <TableCell>{''}</TableCell>
+                <TableCell>{submittedDate.toDateString()}</TableCell>
               </TableRow>
             )
           )}

@@ -6,7 +6,7 @@ import { locationDictionary, getLocationById } from 'helpers/location.helper';
 
 const buildLogSummaryDtos = (): LogSummaryDto[] => {
   const logSummaryDtos: LogSummaryDto[] = [];
-  allLogs.forEach(({ logId, formId, status, locationId }) => {
+  allLogs.forEach(({ logId, formId, status, locationId, submittedDate }) => {
     const { levelInfo } = locationDictionary[locationId];
     const level2Id =
       levelInfo.atLevel === LocationLevel.LEVEL2
@@ -27,6 +27,7 @@ const buildLogSummaryDtos = (): LogSummaryDto[] => {
       formVersion: form ? form.formVersion : 0,
       formName: form ? form.formName : '',
       status,
+      submittedDate,
       level0: getLocationById(level0Id)?.locationName,
       level1: getLocationById(level1Id)?.locationName,
       level2: getLocationById(level2Id)?.locationName

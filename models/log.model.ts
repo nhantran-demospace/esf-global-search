@@ -3,6 +3,7 @@ export interface Log {
   formId: number;
   locationId: number;
   status: LogStatus;
+  submittedDate: Date;
 }
 
 export interface LogSummaryDto {
@@ -11,6 +12,7 @@ export interface LogSummaryDto {
   formVersion: number;
   formName: string;
   status: LogStatus;
+  submittedDate: Date;
   level0: string;
   level1: string;
   level2: string;
