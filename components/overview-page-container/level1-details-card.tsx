@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 import {
   Title,
@@ -12,12 +13,18 @@ import {
 } from '@tremor/react';
 import { isEmpty } from 'lodash';
 import { ArrowRightIcon } from '@heroicons/react/20/solid';
-import { Path } from 'enums';
+
+import { useAppDispatch } from 'hooks';
+
+import { persistSelectedLevel1Ids } from 'slices/location.slice';
 
 import { Level1Info, Location } from 'models/location.model';
-import { useState } from 'react';
+
 import { getLevel2Locations } from 'helpers/location.helper';
+
 import { Level2Table } from 'components/overview-page-container/level2-table';
+
+import { Path } from 'enums';
 
 interface level1DetailCardProps {
   level1: Location;
@@ -26,6 +33,7 @@ interface level1DetailCardProps {
 export default function Level1DetailsCard({
   level1: { locationName, locationId: level1Id, levelInfo: level1Info }
 }: level1DetailCardProps) {
+  const dispatch = useAppDispatch();
   const router = useRouter();
   const [selectedLevel2Ids, setSelectedLevel2Ids] = useState<number[]>([]);
 
@@ -35,6 +43,7 @@ export default function Level1DetailsCard({
   );
 
   const onViewDetailsClick = () => {
+    dispatch(persistSelectedLevel1Ids([level1Id]));
     router.push(`${Path.Detail}`);
   };
 
@@ -99,6 +108,7 @@ export default function Level1DetailsCard({
           icon={ArrowRightIcon}
           iconPosition="right"
           color={'teal'}
+          handleClick={onViewDetailsClick}
         />
       </Footer>
     </Card>
