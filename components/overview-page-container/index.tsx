@@ -7,7 +7,7 @@ import {
 import { useAppSelector } from 'hooks';
 
 import Level0SummaryCard from 'components/overview-page-container/level0-summary-card';
-import Level1DetailCard from 'components/overview-page-container/level1-detail-card';
+import Level1DetailsCard from 'components/overview-page-container/level1-details-card';
 import { getLevel1Locations } from 'helpers/location.helper';
 
 export default function HomePageOverview() {
@@ -36,7 +36,7 @@ export default function HomePageOverview() {
       <Level0SummaryCard />
       <ColGrid numColsMd={3} gapX="gap-x-6" gapY="gap-y-6" marginTop="mt-6">
         {selectedLevel1Locations.map((level1) => (
-          <Level1DetailCard
+          <Level1DetailsCard
             key={`${level1.locationId}-${level1.locationName}`}
             level1={level1}
           />

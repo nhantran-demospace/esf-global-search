@@ -7,7 +7,8 @@ import {
   MultiSelectBox,
   MultiSelectBoxItem,
   Flex,
-  Subtitle
+  Subtitle,
+  Text
 } from '@tremor/react';
 import { isEmpty } from 'lodash';
 import { ArrowRightIcon } from '@heroicons/react/20/solid';
@@ -22,7 +23,7 @@ interface level1DetailCardProps {
   level1: Location;
 }
 
-export default function Level1DetailCard({
+export default function Level1DetailsCard({
   level1: { locationName, locationId: level1Id, levelInfo: level1Info }
 }: level1DetailCardProps) {
   const router = useRouter();
@@ -64,24 +65,28 @@ export default function Level1DetailCard({
     <Card>
       <Flex justifyContent={'justify-between'}>
         <Title>{locationName}</Title>
-        <MultiSelectBox
-          defaultValues={matchingLevel2Locations.map(
-            (level2) => level2.locationId
-          )}
-          handleSelect={(value) => setSelectedLevel2Ids(value)}
-          placeholder="Select Level 2"
-          maxWidth="max-w-0"
-        >
-          {matchingLevel2Locations.map(
-            ({ locationId: level2Id, locationName: level2Name }) => (
-              <MultiSelectBoxItem
-                key={`${level2Id}-${level2Name}`}
-                value={level2Id}
-                text={level2Name}
-              />
-            )
-          )}
-        </MultiSelectBox>
+        <div>
+          <Text>Level 2 location</Text>
+          <MultiSelectBox
+            defaultValues={matchingLevel2Locations.map(
+              (level2) => level2.locationId
+            )}
+            handleSelect={(value) => setSelectedLevel2Ids(value)}
+            placeholder="Select Level 2"
+            maxWidth="max-w-0"
+            marginTop="mt-2"
+          >
+            {matchingLevel2Locations.map(
+              ({ locationId: level2Id, locationName: level2Name }) => (
+                <MultiSelectBoxItem
+                  key={`${level2Id}-${level2Name}`}
+                  value={level2Id}
+                  text={level2Name}
+                />
+              )
+            )}
+          </MultiSelectBox>
+        </div>
       </Flex>
       <Level2Table
         allLevel2Locations={matchingLevel2Locations}
