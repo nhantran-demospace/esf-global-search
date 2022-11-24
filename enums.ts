@@ -1,9 +1,9 @@
 export enum Page {
   'Overview' = 'Overview',
-  'Detail' = 'Detail'
+  'Detail' = 'Details'
 }
 
 export enum Path {
   'Overview' = '/overview',
-  'Detail' = '/detail'
+  'Detail' = '/details'
 }

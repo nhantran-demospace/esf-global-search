@@ -1,6 +1,6 @@
 import Head from 'next/head';
 
-import DetailPageContainer from 'components/detail-page-container';
+import DetailsPageContainer from 'components/details-page-container';
 import ControlBar from 'components/control-bar';
 import Header from 'components/header';
 
@@ -15,7 +15,7 @@ export default function Home() {
       <Header />
       <ControlBar />
       <main className="bg-slate-50 p-6">
-        <DetailPageContainer />
+        <DetailsPageContainer />
       </main>
     </>
   );
