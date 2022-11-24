@@ -1,5 +1,9 @@
 import { Log, LogStatus } from 'models/log.model';
-import { generateRandomDate } from '../utils';
+import {
+  generateListOfRandomUserFullNames,
+  generateRandomDate,
+  generateRandomNumber
+} from 'utils';
 
 export const allLogs: Log[] = [
   {
@@ -10,6 +14,9 @@ export const allLogs: Log[] = [
     submittedDate: generateRandomDate(
       new Date(2022, 1, 1),
       new Date(2022, 12, 31)
+    ),
+    performedBySignatures: generateListOfRandomUserFullNames(
+      generateRandomNumber(2)
     )
   },
   {
@@ -20,6 +27,9 @@ export const allLogs: Log[] = [
     submittedDate: generateRandomDate(
       new Date(2022, 1, 1),
       new Date(2022, 12, 31)
+    ),
+    performedBySignatures: generateListOfRandomUserFullNames(
+      generateRandomNumber(2)
     )
   },
   {
@@ -30,6 +40,9 @@ export const allLogs: Log[] = [
     submittedDate: generateRandomDate(
       new Date(2022, 1, 1),
       new Date(2022, 12, 31)
+    ),
+    performedBySignatures: generateListOfRandomUserFullNames(
+      generateRandomNumber(2)
     )
   },
   {
@@ -40,6 +53,9 @@ export const allLogs: Log[] = [
     submittedDate: generateRandomDate(
       new Date(2022, 1, 1),
       new Date(2022, 12, 31)
+    ),
+    performedBySignatures: generateListOfRandomUserFullNames(
+      generateRandomNumber(2)
     )
   },
   {
@@ -50,6 +66,9 @@ export const allLogs: Log[] = [
     submittedDate: generateRandomDate(
       new Date(2022, 1, 1),
       new Date(2022, 12, 31)
+    ),
+    performedBySignatures: generateListOfRandomUserFullNames(
+      generateRandomNumber(2)
     )
   },
   {
@@ -60,6 +79,9 @@ export const allLogs: Log[] = [
     submittedDate: generateRandomDate(
       new Date(2022, 1, 1),
       new Date(2022, 12, 31)
+    ),
+    performedBySignatures: generateListOfRandomUserFullNames(
+      generateRandomNumber(2)
     )
   },
   {
@@ -70,6 +92,9 @@ export const allLogs: Log[] = [
     submittedDate: generateRandomDate(
       new Date(2022, 1, 1),
       new Date(2022, 12, 31)
+    ),
+    performedBySignatures: generateListOfRandomUserFullNames(
+      generateRandomNumber(2)
     )
   },
   {
@@ -80,6 +105,9 @@ export const allLogs: Log[] = [
     submittedDate: generateRandomDate(
       new Date(2022, 1, 1),
       new Date(2022, 12, 31)
+    ),
+    performedBySignatures: generateListOfRandomUserFullNames(
+      generateRandomNumber(2)
     )
   },
   {
@@ -90,6 +118,9 @@ export const allLogs: Log[] = [
     submittedDate: generateRandomDate(
       new Date(2022, 1, 1),
       new Date(2022, 12, 31)
+    ),
+    performedBySignatures: generateListOfRandomUserFullNames(
+      generateRandomNumber(2)
     )
   }
 ];

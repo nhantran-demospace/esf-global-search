@@ -4,6 +4,7 @@ export interface Log {
   locationId: number;
   status: LogStatus;
   submittedDate: Date;
+  performedBySignatures: string[];
 }
 
 export interface LogSummaryDto {
@@ -13,6 +14,7 @@ export interface LogSummaryDto {
   formName: string;
   status: LogStatus;
   submittedDate: Date;
+  performedBySignatures: string[];
   level0: string;
   level1: string;
   level2: string;

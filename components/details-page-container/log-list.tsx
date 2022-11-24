@@ -110,6 +110,7 @@ export default function LogList() {
               formVersion,
               formName,
               status,
+              performedBySignatures,
               submittedDate
             }) => (
               <TableRow key={logId}>
@@ -122,7 +123,7 @@ export default function LogList() {
                 <TableCell>
                   <Badge color={colors[status]} text={status} size="xs" />
                 </TableCell>
-                <TableCell>{''}</TableCell>
+                <TableCell>{performedBySignatures.join(', ')}</TableCell>
                 <TableCell>{''}</TableCell>
                 <TableCell>{''}</TableCell>
                 <TableCell>{submittedDate.toDateString()}</TableCell>
