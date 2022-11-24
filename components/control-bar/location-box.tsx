@@ -125,7 +125,7 @@ const LocationBox = () => {
 
   const onLevel1Selected = (ids: number[]) => {
     setSelectedLevel1Ids(ids);
-    dispatch(persistSelectedLevel1Ids(selectedLevel1Ids));
+    dispatch(persistSelectedLevel1Ids(ids));
   };
 
   if (selectedLevel0Id) {
