@@ -10,24 +10,22 @@ import {
   TableBody,
   TableCell,
   Badge,
-  MultiSelectBox,
-  MultiSelectBoxItem,
-  Datepicker
+  Datepicker,
+  Text
 } from '@tremor/react';
 
 import { logSummaryDtos } from 'helpers/log.helper';
-import { getFormById } from 'helpers/form.helper';
+import { allFormIds } from 'helpers/form.helper';
 import { LogStatus } from 'models/log.model';
-import { allForms } from 'mocks/forms.mock';
 import {
   selectStatusFilter,
   persistStatusFilter
 } from 'slices/log-list-filter.slice';
 import { useAppDispatch, useAppSelector } from 'hooks';
-import { allStatuses, colors } from 'app-constants';
+import { colors } from 'app-constants';
 
-const allFormIds = allForms.map((form) => form.formId);
-const allFormNames = allForms.map((form) => form.formName);
+import FormNameSelectBox from 'components/details-page-container/filters/form-name-select-box';
+import LogStatusSelectBox from 'components/details-page-container/filters/log-status-select-box';
 
 export default function LogList() {
   const dispatch = useAppDispatch();
@@ -47,44 +45,28 @@ export default function LogList() {
     dispatch(persistStatusFilter(statuses));
   };
 
+  const onFormNameSelected = (formIds: number[]) => {
+    setSelectedFormIds(formIds);
+  };
+
   return (
     <Card>
       <Flex justifyContent="justify-between">
         <Title>Log(s)</Title>
         <div className="flex space-x-4">
-          <MultiSelectBox
-            defaultValues={initialStatusFilter}
-            handleSelect={onStatusSelected}
-            placeholder="Select status(s)"
-            maxWidth="max-w-0"
-          >
-            {allStatuses.map((status) => (
-              <MultiSelectBoxItem
-                key={`${status}`}
-                value={status}
-                text={status}
-              />
-            ))}
-          </MultiSelectBox>
-          <MultiSelectBox
-            defaultValues={allFormNames}
-            handleSelect={(value) => setSelectedFormIds(value)}
-            placeholder="Select form name(s)"
-            maxWidth="max-w-xs"
-          >
-            {allFormIds.map((formId) => (
-              <MultiSelectBoxItem
-                key={`${formId}`}
-                value={formId}
-                text={getFormById(formId)?.formName}
-              />
-            ))}
-          </MultiSelectBox>
-          <Datepicker
-            placeholder="Select date"
-            enableRelativeDates={true}
-            maxWidth="max-w-xs"
+          <FormNameSelectBox onFormNameSelected={onFormNameSelected} />
+          <LogStatusSelectBox
+            onStatusSelected={onStatusSelected}
+            initialStatuses={initialStatusFilter}
           />
+          <div>
+            <Text>Submitted Date</Text>
+            <Datepicker
+              enableRelativeDates={true}
+              maxWidth="max-w-xs"
+              marginTop={'mt-2'}
+            />
+          </div>
         </div>
       </Flex>
 

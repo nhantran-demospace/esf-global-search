@@ -3,7 +3,8 @@ import {
   MultiSelectBoxItem,
   SelectBox,
   SelectBoxItem,
-  Flex
+  Flex,
+  Text
 } from '@tremor/react';
 import { useState } from 'react';
 
@@ -28,21 +29,24 @@ interface Level0SelectBoxProps {
 const Level0SelectBox = ({ onLevel0Selected }: Level0SelectBoxProps) => {
   const allLevel0Locations = getAllLevel0Locations();
   return (
-    <SelectBox
-      handleSelect={(locationId) => onLevel0Selected(locationId)}
-      placeholder={'Select level 0'}
-      maxWidth={'max-w-xs'}
-    >
-      {allLevel0Locations.map(
-        ({ locationId, locationName, levelInfo: { atLevel } }) => (
-          <SelectBoxItem
-            key={`${locationId}-${locationName}-${atLevel}`}
-            value={locationId}
-            text={locationName}
-          />
-        )
-      )}
-    </SelectBox>
+    <div>
+      <Text>Level 0 location</Text>
+      <SelectBox
+        handleSelect={(locationId) => onLevel0Selected(locationId)}
+        maxWidth={'max-w-0'}
+        marginTop={'mt-2'}
+      >
+        {allLevel0Locations.map(
+          ({ locationId, locationName, levelInfo: { atLevel } }) => (
+            <SelectBoxItem
+              key={`${locationId}-${locationName}-${atLevel}`}
+              value={locationId}
+              text={locationName}
+            />
+          )
+        )}
+      </SelectBox>
+    </div>
   );
 };
 
@@ -60,23 +64,27 @@ const Level1SelectBox = ({
   const level1Locations = selectedLevel1Ids.map((id) => getLocationById(id));
 
   return (
-    <MultiSelectBox
-      key={`${level0Id}`}
-      handleSelect={(locationId) => onLevel1Selected(locationId)}
-      defaultValues={level1Locations.map(({ locationId }) => locationId)}
-      placeholder={'Select level 1'}
-      maxWidth={'max-w-xs'}
-    >
-      {level1Locations.map(
-        ({ locationId, locationName, levelInfo: { atLevel } }) => (
-          <MultiSelectBoxItem
-            key={`${locationId}-${locationName}-${atLevel}`}
-            value={locationId}
-            text={locationName}
-          />
-        )
-      )}
-    </MultiSelectBox>
+    <div>
+      <Text>Level 1 location</Text>
+      <MultiSelectBox
+        key={`${level0Id}`}
+        handleSelect={(locationId) => onLevel1Selected(locationId)}
+        defaultValues={level1Locations.map(({ locationId }) => locationId)}
+        placeholder={'Select level 1'}
+        maxWidth={'max-w-0'}
+        marginTop={'mt-2'}
+      >
+        {level1Locations.map(
+          ({ locationId, locationName, levelInfo: { atLevel } }) => (
+            <MultiSelectBoxItem
+              key={`${locationId}-${locationName}-${atLevel}`}
+              value={locationId}
+              text={locationName}
+            />
+          )
+        )}
+      </MultiSelectBox>
+    </div>
   );
 };
 

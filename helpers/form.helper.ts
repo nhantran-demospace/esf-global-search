@@ -14,3 +14,6 @@ export const getFormById = (formId: number) => {
 };
 
 export const formDictionary = buildFormDictionary(allForms);
+
+export const allFormIds = allForms.map((form) => form.formId);
+export const allFormNames = allForms.map((form) => form.formName);

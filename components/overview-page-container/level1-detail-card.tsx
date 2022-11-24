@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import {
   Title,
   Footer,
@@ -10,6 +11,7 @@ import {
 } from '@tremor/react';
 import { isEmpty } from 'lodash';
 import { ArrowRightIcon } from '@heroicons/react/20/solid';
+import { Path } from 'enums';
 
 import { Level1Info, Location } from 'models/location.model';
 import { useState } from 'react';
@@ -23,12 +25,17 @@ interface level1DetailCardProps {
 export default function Level1DetailCard({
   level1: { locationName, locationId: level1Id, levelInfo: level1Info }
 }: level1DetailCardProps) {
+  const router = useRouter();
   const [selectedLevel2Ids, setSelectedLevel2Ids] = useState<number[]>([]);
 
   const matchingLevel2Locations = getLevel2Locations(
     (level1Info as Level1Info)?.level0Id,
     level1Id
   );
+
+  const onViewDetailsClick = () => {
+    router.push(`${Path.Detail}`);
+  };
 
   if (isEmpty(matchingLevel2Locations)) {
     return (
@@ -39,6 +46,16 @@ export default function Level1DetailCard({
         <div className="h-full flex items-center justify-center">
           <Subtitle>No level 2 data</Subtitle>
         </div>
+        <Footer>
+          <ButtonInline
+            handleClick={onViewDetailsClick}
+            size="sm"
+            text="View details"
+            icon={ArrowRightIcon}
+            iconPosition="right"
+            color={'teal'}
+          />
+        </Footer>
       </Card>
     );
   }
