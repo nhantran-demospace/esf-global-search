@@ -26,9 +26,16 @@ import { colors } from 'app-constants';
 
 import FormNameSelectBox from 'components/details-page-container/filters/form-name-select-box';
 import LogStatusSelectBox from 'components/details-page-container/filters/log-status-select-box';
+import {
+  selectSelectedLevel0Id,
+  selectSelectedLevel1Ids
+} from 'slices/location.slice';
+import { getLocationById } from '../../helpers/location.helper';
 
 export default function LogList() {
   const dispatch = useAppDispatch();
+  const selectedLevel0Id = useAppSelector(selectSelectedLevel0Id);
+  const selectedLeve1Ids = useAppSelector(selectSelectedLevel1Ids);
   const initialStatusFilter = useAppSelector(selectStatusFilter);
   const [selectedStatuses, setSelectedStatuses] =
     useState<LogStatus[]>(initialStatusFilter);
@@ -38,8 +45,14 @@ export default function LogList() {
     new Date()
   ]);
 
+  const level1LocationNames = selectedLeve1Ids.map(
+    (level1Id) => getLocationById(level1Id).locationName
+  );
+
   const filteredLogDtos = logSummaryDtos.filter(
     (logDto) =>
+      getLocationById(selectedLevel0Id ?? 0)?.locationName === logDto.level0 &&
+      level1LocationNames.includes(logDto.level1) &&
       selectedStatuses.includes(logDto.status) &&
       selectedFormIds.includes(logDto.formId) &&
       selectedDateRange[0] <= logDto.submittedDate &&

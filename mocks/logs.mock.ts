@@ -11,10 +11,7 @@ export const allLogs: Log[] = [
     formId: 1,
     locationId: 2,
     status: LogStatus.OPEN,
-    submittedDate: generateRandomDate(
-      new Date(2022, 1, 1),
-      new Date(2022, 12, 31)
-    ),
+    submittedDate: generateRandomDate(new Date(2022, 1, 1), new Date()),
     performedBySignatures: generateListOfRandomUserFullNames(
       generateRandomNumber(2)
     )
@@ -24,10 +21,7 @@ export const allLogs: Log[] = [
     formId: 1,
     locationId: 2,
     status: LogStatus.OPEN,
-    submittedDate: generateRandomDate(
-      new Date(2022, 1, 1),
-      new Date(2022, 12, 31)
-    ),
+    submittedDate: generateRandomDate(new Date(2022, 1, 1), new Date()),
     performedBySignatures: generateListOfRandomUserFullNames(
       generateRandomNumber(2)
     )
@@ -37,10 +31,7 @@ export const allLogs: Log[] = [
     formId: 1,
     locationId: 2,
     status: LogStatus.VOID_PENDING_ACTIONS,
-    submittedDate: generateRandomDate(
-      new Date(2022, 1, 1),
-      new Date(2022, 12, 31)
-    ),
+    submittedDate: generateRandomDate(new Date(2022, 1, 1), new Date()),
     performedBySignatures: generateListOfRandomUserFullNames(
       generateRandomNumber(2)
     )
@@ -50,10 +41,7 @@ export const allLogs: Log[] = [
     formId: 2,
     locationId: 2,
     status: LogStatus.PENDING_UPDATE,
-    submittedDate: generateRandomDate(
-      new Date(2022, 1, 1),
-      new Date(2022, 12, 31)
-    ),
+    submittedDate: generateRandomDate(new Date(2022, 1, 1), new Date()),
     performedBySignatures: generateListOfRandomUserFullNames(
       generateRandomNumber(2)
     )
@@ -63,10 +51,7 @@ export const allLogs: Log[] = [
     formId: 2,
     locationId: 2,
     status: LogStatus.PENDING_UPDATE,
-    submittedDate: generateRandomDate(
-      new Date(2022, 1, 1),
-      new Date(2022, 12, 31)
-    ),
+    submittedDate: generateRandomDate(new Date(2022, 1, 1), new Date()),
     performedBySignatures: generateListOfRandomUserFullNames(
       generateRandomNumber(2)
     )
@@ -76,10 +61,7 @@ export const allLogs: Log[] = [
     formId: 3,
     locationId: 51,
     status: LogStatus.OPEN,
-    submittedDate: generateRandomDate(
-      new Date(2022, 1, 1),
-      new Date(2022, 12, 31)
-    ),
+    submittedDate: generateRandomDate(new Date(2022, 1, 1), new Date()),
     performedBySignatures: generateListOfRandomUserFullNames(
       generateRandomNumber(2)
     )
@@ -89,10 +71,7 @@ export const allLogs: Log[] = [
     formId: 3,
     locationId: 51,
     status: LogStatus.VOID_PENDING_ACTIONS,
-    submittedDate: generateRandomDate(
-      new Date(2022, 1, 1),
-      new Date(2022, 12, 31)
-    ),
+    submittedDate: generateRandomDate(new Date(2022, 1, 1), new Date()),
     performedBySignatures: generateListOfRandomUserFullNames(
       generateRandomNumber(2)
     )
@@ -102,10 +81,7 @@ export const allLogs: Log[] = [
     formId: 3,
     locationId: 51,
     status: LogStatus.PENDING_UPDATE,
-    submittedDate: generateRandomDate(
-      new Date(2022, 1, 1),
-      new Date(2022, 12, 31)
-    ),
+    submittedDate: generateRandomDate(new Date(2022, 1, 1), new Date()),
     performedBySignatures: generateListOfRandomUserFullNames(
       generateRandomNumber(2)
     )
@@ -115,10 +91,7 @@ export const allLogs: Log[] = [
     formId: 3,
     locationId: 51,
     status: LogStatus.PENDING_UPDATE,
-    submittedDate: generateRandomDate(
-      new Date(2022, 1, 1),
-      new Date(2022, 12, 31)
-    ),
+    submittedDate: generateRandomDate(new Date(2022, 1, 1), new Date()),
     performedBySignatures: generateListOfRandomUserFullNames(
       generateRandomNumber(2)
     )
