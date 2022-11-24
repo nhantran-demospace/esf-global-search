@@ -61,7 +61,10 @@ const Level1SelectBox = ({
   onLevel1Selected,
   selectedLevel1Ids
 }: Level1SelectBoxProps) => {
-  const level1Locations = selectedLevel1Ids.map((id) => getLocationById(id));
+  const allLevel1Locations = getLevel1Locations(level0Id);
+  const selectedLevel1Locations = selectedLevel1Ids.map((id) =>
+    getLocationById(id)
+  );
 
   return (
     <div>
@@ -69,12 +72,14 @@ const Level1SelectBox = ({
       <MultiSelectBox
         key={`${level0Id}`}
         handleSelect={(locationId) => onLevel1Selected(locationId)}
-        defaultValues={level1Locations.map(({ locationId }) => locationId)}
+        defaultValues={selectedLevel1Locations.map(
+          ({ locationId }) => locationId
+        )}
         placeholder={'Select level 1'}
         maxWidth={'max-w-0'}
         marginTop={'mt-2'}
       >
-        {level1Locations.map(
+        {allLevel1Locations.map(
           ({ locationId, locationName, levelInfo: { atLevel } }) => (
             <MultiSelectBoxItem
               key={`${locationId}-${locationName}-${atLevel}`}
