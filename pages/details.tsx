@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>ESF Global Search | Detail</title>
+        <title>eShopFloor | Global Search | Detail</title>
         <meta name="description" content="Demo of ESF Global Search feature" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
