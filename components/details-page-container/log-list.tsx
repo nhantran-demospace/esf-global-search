@@ -3,7 +3,6 @@ import { isEmpty } from 'lodash';
 import {
   Card,
   Title,
-  Flex,
   Table,
   TableRow,
   TableHead,
@@ -11,8 +10,7 @@ import {
   TableBody,
   TableCell,
   Badge,
-  Datepicker,
-  Text
+  Subtitle
 } from '@tremor/react';
 
 import { logSummaryDtos } from 'helpers/log.helper';
@@ -29,8 +27,8 @@ import { useAppDispatch, useAppSelector } from 'hooks';
 
 import { colors } from 'app-constants';
 
-import FormNameSelectBox from 'components/details-page-container/filters/form-name-select-box';
-import LogStatusSelectBox from 'components/details-page-container/filters/log-status-select-box';
+import LogFilters from 'components/details-page-container/log-filters';
+
 import {
   selectSelectedLevel0Id,
   selectSelectedLevel1Ids
@@ -78,27 +76,32 @@ export default function LogList() {
     setSelectedDateRange([startDate, endDate]);
   };
 
+  if (isEmpty(filteredLogDtos)) {
+    return (
+      <Card>
+        <LogFilters
+          onFormNameSelected={onFormNameSelected}
+          onStatusSelected={onStatusSelected}
+          initialStatuses={initialStatusFilter}
+          onSubmittedDateSelected={onSubmittedDateSelected}
+        />
+
+        <div className="text-center my-64">
+          <Title>No matching data to show</Title>
+          <Subtitle>Select a different filter condition</Subtitle>
+        </div>
+      </Card>
+    );
+  }
+
   return (
     <Card>
-      <Flex justifyContent="justify-between">
-        <Title>Log(s)</Title>
-        <div className="flex space-x-4">
-          <FormNameSelectBox onFormNameSelected={onFormNameSelected} />
-          <LogStatusSelectBox
-            onStatusSelected={onStatusSelected}
-            initialStatuses={initialStatusFilter}
-          />
-          <div>
-            <Text>Submitted Date</Text>
-            <Datepicker
-              handleSelect={onSubmittedDateSelected}
-              enableRelativeDates={true}
-              maxWidth="max-w-md"
-              marginTop={'mt-2'}
-            />
-          </div>
-        </div>
-      </Flex>
+      <LogFilters
+        onFormNameSelected={onFormNameSelected}
+        onStatusSelected={onStatusSelected}
+        initialStatuses={initialStatusFilter}
+        onSubmittedDateSelected={onSubmittedDateSelected}
+      />
 
       <Table marginTop="mt-6">
         <TableHead>
