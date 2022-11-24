@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { isEmpty } from 'lodash';
 import {
   Card,
   Title,
@@ -16,12 +17,16 @@ import {
 
 import { logSummaryDtos } from 'helpers/log.helper';
 import { allFormIds } from 'helpers/form.helper';
+import { getLocationById } from 'helpers/location.helper';
+
 import { LogStatus } from 'models/log.model';
 import {
   selectStatusFilter,
   persistStatusFilter
 } from 'slices/log-list-filter.slice';
+
 import { useAppDispatch, useAppSelector } from 'hooks';
+
 import { colors } from 'app-constants';
 
 import FormNameSelectBox from 'components/details-page-container/filters/form-name-select-box';
@@ -30,7 +35,6 @@ import {
   selectSelectedLevel0Id,
   selectSelectedLevel1Ids
 } from 'slices/location.slice';
-import { getLocationById } from '../../helpers/location.helper';
 
 export default function LogList() {
   const dispatch = useAppDispatch();
@@ -52,7 +56,9 @@ export default function LogList() {
   const filteredLogDtos = logSummaryDtos.filter(
     (logDto) =>
       getLocationById(selectedLevel0Id ?? 0)?.locationName === logDto.level0 &&
-      level1LocationNames.includes(logDto.level1) &&
+      (isEmpty(level1LocationNames)
+        ? true
+        : level1LocationNames.includes(logDto.level1)) &&
       selectedStatuses.includes(logDto.status) &&
       selectedFormIds.includes(logDto.formId) &&
       selectedDateRange[0] <= logDto.submittedDate &&
