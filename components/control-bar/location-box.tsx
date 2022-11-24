@@ -23,15 +23,20 @@ import {
 } from 'slices/location.slice';
 
 interface Level0SelectBoxProps {
+  selectedLevel0Id: number | undefined;
   onLevel0Selected: (locationId: number) => void;
 }
 
-const Level0SelectBox = ({ onLevel0Selected }: Level0SelectBoxProps) => {
+const Level0SelectBox = ({
+  onLevel0Selected,
+  selectedLevel0Id
+}: Level0SelectBoxProps) => {
   const allLevel0Locations = getAllLevel0Locations();
   return (
     <div>
       <Text>Level 0 location</Text>
       <SelectBox
+        defaultValue={selectedLevel0Id}
         handleSelect={(locationId) => onLevel0Selected(locationId)}
         maxWidth={'max-w-0'}
         marginTop={'mt-2'}
@@ -126,7 +131,10 @@ const LocationBox = () => {
   if (selectedLevel0Id) {
     return (
       <Flex justifyContent={'justify-start'} spaceX={'space-x-4'}>
-        <Level0SelectBox onLevel0Selected={onLevel0Selected} />
+        <Level0SelectBox
+          onLevel0Selected={onLevel0Selected}
+          selectedLevel0Id={selectedLevel0Id}
+        />
         <Level1SelectBox
           level0Id={selectedLevel0Id}
           onLevel1Selected={onLevel1Selected}
@@ -136,7 +144,12 @@ const LocationBox = () => {
     );
   }
 
-  return <Level0SelectBox onLevel0Selected={onLevel0Selected} />;
+  return (
+    <Level0SelectBox
+      onLevel0Selected={onLevel0Selected}
+      selectedLevel0Id={selectedLevel0Id}
+    />
+  );
 };
 
 export default LocationBox;
