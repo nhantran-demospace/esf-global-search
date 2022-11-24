@@ -12,7 +12,10 @@ import { locationStatisticDictionary } from 'helpers/location.helper';
 import { Location } from 'models/location.model';
 import { LogStatus } from 'models/log.model';
 import { useAppSelector, useAppDispatch } from 'hooks';
-import { selectSelectedLevel1Ids } from 'slices/location.slice';
+import {
+  persistSelectedLevel1Ids,
+  selectSelectedLevel1Ids
+} from 'slices/location.slice';
 import { persistStatusFilter } from 'slices/log-list-filter.slice';
 import { Path } from 'enums';
 
@@ -30,11 +33,12 @@ export const Level1Table = ({ matchingLevel1Locations }: Level1TableProps) => {
 
   const onStatisticClick = (level1Id: number, status: LogStatus) => {
     dispatch(persistStatusFilter([status]));
+    dispatch(persistSelectedLevel1Ids([level1Id]));
     router.push(`${Path.Detail}`);
   };
 
   return (
-    <Table marginTop="mt-4">
+    <Table>
       <TableHead>
         <TableRow>
           <TableHeaderCell>Level 1</TableHeaderCell>
