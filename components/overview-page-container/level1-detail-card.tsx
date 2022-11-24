@@ -5,8 +5,10 @@ import {
   Card,
   MultiSelectBox,
   MultiSelectBoxItem,
-  Flex
+  Flex,
+  Subtitle
 } from '@tremor/react';
+import { isEmpty } from 'lodash';
 import { ArrowRightIcon } from '@heroicons/react/20/solid';
 
 import { Level1Info, Location } from 'models/location.model';
@@ -23,22 +25,37 @@ export default function Level1DetailCard({
 }: level1DetailCardProps) {
   const [selectedLevel2Ids, setSelectedLevel2Ids] = useState<number[]>([]);
 
-  const allLevel2Locations = getLevel2Locations(
+  const matchingLevel2Locations = getLevel2Locations(
     (level1Info as Level1Info)?.level0Id,
     level1Id
   );
+
+  if (isEmpty(matchingLevel2Locations)) {
+    return (
+      <Card>
+        <Flex justifyContent={'justify-between'}>
+          <Title>{locationName}</Title>
+        </Flex>
+        <div className="h-full flex items-center justify-center">
+          <Subtitle>No level 2 data</Subtitle>
+        </div>
+      </Card>
+    );
+  }
 
   return (
     <Card>
       <Flex justifyContent={'justify-between'}>
         <Title>{locationName}</Title>
         <MultiSelectBox
-          defaultValues={allLevel2Locations.map((level2) => level2.locationId)}
+          defaultValues={matchingLevel2Locations.map(
+            (level2) => level2.locationId
+          )}
           handleSelect={(value) => setSelectedLevel2Ids(value)}
           placeholder="Select Level 2"
           maxWidth="max-w-0"
         >
-          {allLevel2Locations.map(
+          {matchingLevel2Locations.map(
             ({ locationId: level2Id, locationName: level2Name }) => (
               <MultiSelectBoxItem
                 key={`${level2Id}-${level2Name}`}
@@ -50,7 +67,7 @@ export default function Level1DetailCard({
         </MultiSelectBox>
       </Flex>
       <Level2Table
-        allLevel2Locations={allLevel2Locations}
+        allLevel2Locations={matchingLevel2Locations}
         selectedLevel2Ids={selectedLevel2Ids}
       />
       <Footer>

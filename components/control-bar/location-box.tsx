@@ -13,10 +13,12 @@ import {
   getLocationById
 } from 'helpers/location.helper';
 
-import { useAppDispatch } from 'hooks';
+import { useAppDispatch, useAppSelector } from 'hooks';
 import {
   persistSelectedLevel0Id,
-  persistSelectedLevel1Ids
+  persistSelectedLevel1Ids,
+  selectSelectedLevel0Id,
+  selectSelectedLevel1Ids
 } from 'slices/location.slice';
 
 interface Level0SelectBoxProps {
@@ -80,11 +82,15 @@ const Level1SelectBox = ({
 
 const LocationBox = () => {
   const dispatch = useAppDispatch();
+  const initialSelectedLevel0Id = useAppSelector(selectSelectedLevel0Id);
+  const initialSelectedLevel1Ids = useAppSelector(selectSelectedLevel1Ids);
 
-  const [selectedLevel0Id, setSelectedLevel0Id] = useState<
-    number | undefined
-  >();
-  const [selectedLevel1Ids, setSelectedLevel1Ids] = useState<number[]>([]);
+  const [selectedLevel0Id, setSelectedLevel0Id] = useState<number | undefined>(
+    initialSelectedLevel0Id
+  );
+  const [selectedLevel1Ids, setSelectedLevel1Ids] = useState<number[]>(
+    initialSelectedLevel1Ids
+  );
 
   const onLevel0Selected = (level0Id: number) => {
     setSelectedLevel0Id(level0Id);
