@@ -48,12 +48,17 @@ export interface Level4Info extends LevelInfo {
 
 export type LocationDictionary = Record<number, Location>;
 
-export interface  LocationStatistic {
+export interface LocationStatistic {
   openCount: number;
   pendingUpdateCount: number;
   voidPendingActionsCount: number;
 }
 
-export interface LocationDetail extends Location, LocationStatistic {};
-
 export type LocationStatisticDictionary = Record<number, LocationStatistic>;
+
+export interface LocationSummaryDto extends LocationStatistic {
+  locationId: number;
+  level0Name: string;
+  level1Name: string;
+  level2Name: string;
+}

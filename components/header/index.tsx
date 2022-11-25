@@ -4,7 +4,7 @@ enum Navigation {
   'eSops' = 'eSOPs',
   'eLogs' = 'eLogs',
   'Notifications' = 'Notifications',
-  'GlobalSearch' = 'GlobalSearch'
+  'GlobalSearch' = 'Global Search'
 }
 
 export default function Header() {
