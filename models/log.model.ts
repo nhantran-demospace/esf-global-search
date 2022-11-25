@@ -26,5 +26,6 @@ export enum LogStatus {
   'COMPLETED' = 'Completed',
   'VOID' = 'Void',
   'OPEN' = 'Open',
-  'VOID_PENDING_ACTIONS' = 'Void Pending Actions'
+  'VOID_PENDING_ACTIONS' = 'Void Pending Actions',
+  'ALL' = 'All statuses'
 }

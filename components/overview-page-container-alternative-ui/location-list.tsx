@@ -1,20 +1,20 @@
 import { useRouter } from 'next/router';
 import {
+  ButtonInline,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeaderCell,
-  TableRow,
-  ButtonInline
+  TableRow
 } from '@tremor/react';
 import { getLocationById, locationSummaryDtos } from 'helpers/location.helper';
 import { LogStatus } from 'models/log.model';
-import { useAppSelector, useAppDispatch } from 'hooks';
+import { useAppDispatch, useAppSelector } from 'hooks';
 import {
   persistSelectedLevel1Ids,
-  selectSelectedLevel1Ids,
-  selectSelectedLevel0Id
+  selectSelectedLevel0Id,
+  selectSelectedLevel1Ids
 } from 'slices/location.slice';
 import { persistStatusFilter } from 'slices/log-list-filter.slice';
 import { Path } from 'enums';
@@ -46,12 +46,17 @@ export const LocationList = () => {
         <TableRow>
           <TableHeaderCell>Level 1</TableHeaderCell>
           <TableHeaderCell>Level 2</TableHeaderCell>
-          <TableHeaderCell textAlignment={'text-right'}>Open</TableHeaderCell>
           <TableHeaderCell textAlignment={'text-right'}>
-            Pending Update
+            {LogStatus.PARTIALLY_SUBMITTED}
           </TableHeaderCell>
           <TableHeaderCell textAlignment={'text-right'}>
-            Void Pending Actions
+            {LogStatus.OPEN}
+          </TableHeaderCell>
+          <TableHeaderCell textAlignment={'text-right'}>
+            {LogStatus.PENDING_UPDATE}
+          </TableHeaderCell>
+          <TableHeaderCell textAlignment={'text-right'}>
+            {LogStatus.VOID_PENDING_ACTIONS}
           </TableHeaderCell>
           <TableHeaderCell textAlignment={'text-right'}>
             Grand Total
@@ -67,50 +72,79 @@ export const LocationList = () => {
             level2Name,
             openCount,
             pendingUpdateCount,
-            voidPendingActionsCount
+            voidPendingActionsCount,
+            partiallySubmittedCount
           }) => (
             <TableRow key={`${level1Name}-${level2Name}`}>
               <TableCell>{level1Name}</TableCell>
               <TableCell>{level2Name}</TableCell>
-              <TableCell textAlignment={'text-right'}>
-                <ButtonInline
-                  text={String(openCount)}
-                  handleClick={() =>
-                    onStatisticClick(locationId, LogStatus.OPEN)
-                  }
-                  color={'teal'}
-                />
-              </TableCell>
-              <TableCell textAlignment={'text-right'}>
-                <ButtonInline
-                  text={String(pendingUpdateCount)}
-                  handleClick={() =>
-                    onStatisticClick(locationId, LogStatus.PENDING_UPDATE)
-                  }
-                  color={'teal'}
-                />
-              </TableCell>
-              <TableCell textAlignment={'text-right'}>
-                <ButtonInline
-                  text={String(voidPendingActionsCount)}
-                  handleClick={() =>
-                    onStatisticClick(locationId, LogStatus.VOID_PENDING_ACTIONS)
-                  }
-                  color={'teal'}
-                />
-              </TableCell>
-              <TableCell textAlignment={'text-right'}>
-                <ButtonInline
-                  text={String(
-                    openCount + pendingUpdateCount + voidPendingActionsCount
-                  )}
-                  color={'teal'}
-                />
-              </TableCell>
+              <StatisticCellContent
+                count={partiallySubmittedCount}
+                locationId={locationId}
+                status={LogStatus.PARTIALLY_SUBMITTED}
+                onStatisticClick={onStatisticClick}
+              />
+              <StatisticCellContent
+                count={openCount}
+                locationId={locationId}
+                status={LogStatus.OPEN}
+                onStatisticClick={onStatisticClick}
+              />
+              <StatisticCellContent
+                count={pendingUpdateCount}
+                locationId={locationId}
+                status={LogStatus.PENDING_UPDATE}
+                onStatisticClick={onStatisticClick}
+              />
+              <StatisticCellContent
+                count={voidPendingActionsCount}
+                locationId={locationId}
+                status={LogStatus.VOID_PENDING_ACTIONS}
+                onStatisticClick={onStatisticClick}
+              />
+              <StatisticCellContent
+                count={
+                  partiallySubmittedCount +
+                  openCount +
+                  pendingUpdateCount +
+                  voidPendingActionsCount
+                }
+                locationId={locationId}
+                status={LogStatus.ALL}
+                onStatisticClick={onStatisticClick}
+              />
             </TableRow>
           )
         )}
       </TableBody>
     </Table>
+  );
+};
+
+interface StatisticCellContentProps {
+  count: number;
+  locationId: number;
+  status: LogStatus;
+  onStatisticClick: (locationId: number, status: LogStatus) => void;
+}
+
+const StatisticCellContent = ({
+  count,
+  onStatisticClick,
+  locationId,
+  status
+}: StatisticCellContentProps) => {
+  return (
+    <TableCell textAlignment={'text-right'}>
+      {count > 0 ? (
+        <ButtonInline
+          text={String(count)}
+          handleClick={() => onStatisticClick(locationId, status)}
+          color={'teal'}
+        />
+      ) : (
+        '-'
+      )}
+    </TableCell>
   );
 };

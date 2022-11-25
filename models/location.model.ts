@@ -52,6 +52,7 @@ export interface LocationStatistic {
   openCount: number;
   pendingUpdateCount: number;
   voidPendingActionsCount: number;
+  partiallySubmittedCount: number;
 }
 
 export type LocationStatisticDictionary = Record<number, LocationStatistic>;
