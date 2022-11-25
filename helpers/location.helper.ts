@@ -94,8 +94,8 @@ const buildLocationSummaryDtos = (
     };
     locationSummaryDtos.push(locationSummaryDto);
   });
-  return locationSummaryDtos.sort(
-    (a, b) => Number(a.level1Name) - Number(b.level1Name)
+  return locationSummaryDtos.sort((a, b) =>
+    a.level1Name > b.level1Name ? 1 : b.level1Name > a.level1Name ? -1 : 0
   );
 };
 
@@ -105,3 +105,4 @@ export const locationStatisticDictionary = buildLocationStatisticDictionary(
   allLogs
 );
 export const locationSummaryDtos = buildLocationSummaryDtos(allLocations);
+console.log(locationSummaryDtos);
