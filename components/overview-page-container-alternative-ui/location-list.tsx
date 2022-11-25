@@ -69,7 +69,7 @@ export const LocationList = () => {
             pendingUpdateCount,
             voidPendingActionsCount
           }) => (
-            <TableRow key={`${locationId}`}>
+            <TableRow key={`${level1Name}-${level2Name}`}>
               <TableCell>{level1Name}</TableCell>
               <TableCell>{level2Name}</TableCell>
               <TableCell textAlignment={'text-right'}>
