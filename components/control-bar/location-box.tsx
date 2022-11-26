@@ -76,8 +76,34 @@ const LocationBox = () => {
     dispatch(persistSelectedLevel2Ids(level2Ids));
   };
 
-  // show level 2 select box only if there is a level 0 and level 1 selected
-  if (selectedLevel0Id && !isEmpty(selectedLevel1Ids)) {
+  const showLevel0AndLevel1Box =
+    (selectedLevel0Id && isEmpty(selectedLevel1Ids)) ||
+    (selectedLevel0Id &&
+      selectedLevel1Ids.length === 1 &&
+      selectedLevel1Ids[0] === selectedLevel0Id);
+
+  if (showLevel0AndLevel1Box) {
+    return (
+      <Flex justifyContent={'justify-start'} spaceX={'space-x-4'}>
+        <Level0SelectBox
+          onLevel0Selected={onLevel0Selected}
+          selectedLevel0Id={selectedLevel0Id}
+        />
+        <Level1SelectBox
+          level0Id={selectedLevel0Id}
+          onLevel1Selected={onLevel1Selected}
+          selectedLevel1Ids={selectedLevel1Ids}
+        />
+      </Flex>
+    );
+  }
+
+  const showLevel0AndLevel1AndLevel2Box =
+    selectedLevel0Id && !isEmpty(selectedLevel1Ids);
+
+  // show level 2 select box only if level 0 and level 1 are selected
+  // number of selected level 1 must be more than 1 or 1 and not '-'
+  if (showLevel0AndLevel1AndLevel2Box) {
     return (
       <Flex justifyContent={'justify-start'} spaceX={'space-x-4'}>
         <Level0SelectBox
@@ -94,22 +120,6 @@ const LocationBox = () => {
           level1Ids={selectedLevel1Ids}
           onLevel2Selected={onLevel2Selected}
           selectedLevel2Ids={selectedLevel2Ids}
-        />
-      </Flex>
-    );
-  }
-
-  if (selectedLevel0Id && isEmpty(selectedLevel1Ids)) {
-    return (
-      <Flex justifyContent={'justify-start'} spaceX={'space-x-4'}>
-        <Level0SelectBox
-          onLevel0Selected={onLevel0Selected}
-          selectedLevel0Id={selectedLevel0Id}
-        />
-        <Level1SelectBox
-          level0Id={selectedLevel0Id}
-          onLevel1Selected={onLevel1Selected}
-          selectedLevel1Ids={selectedLevel1Ids}
         />
       </Flex>
     );

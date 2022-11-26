@@ -28,7 +28,11 @@ const buildLogSummaryDtos = (): LogSummaryDto[] => {
         levelInfo.atLevel === LocationLevel.LEVEL0
           ? locationId
           : (levelInfo as Level4Info).level0Id;
+      const level0Name = getLocationById(level0Id)?.locationName;
+      const level1Name = getLocationById(level1Id)?.locationName;
+      const level2Name = getLocationById(level2Id)?.locationName;
       const form = allForms.find((form) => form.formId === formId);
+
       const logSummaryDto: LogSummaryDto = {
         logId,
         formId,
@@ -37,9 +41,9 @@ const buildLogSummaryDtos = (): LogSummaryDto[] => {
         status,
         submittedDate,
         performedBySignatures,
-        level0: getLocationById(level0Id)?.locationName,
-        level1: getLocationById(level1Id)?.locationName,
-        level2: getLocationById(level2Id)?.locationName
+        level0: level0Name ?? '-',
+        level1: level1Name ?? '-',
+        level2: level2Name ?? '-'
       };
       logSummaryDtos.push(logSummaryDto);
     }
@@ -48,3 +52,4 @@ const buildLogSummaryDtos = (): LogSummaryDto[] => {
 };
 
 export const logSummaryDtos = buildLogSummaryDtos();
+console.log(logSummaryDtos);

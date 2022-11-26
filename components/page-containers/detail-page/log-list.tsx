@@ -47,9 +47,10 @@ export default function LogList() {
     new Date()
   ]);
 
-  const level1LocationNames = selectedLeve1Ids.map(
-    (level1Id) => getLocationById(level1Id).locationName
-  );
+  const level1LocationNames = selectedLeve1Ids.map((level1Id) => {
+    if (level1Id === selectedLevel0Id) return '-';
+    return getLocationById(level1Id).locationName;
+  });
 
   const filteredLogDtos = logSummaryDtos.filter(
     (logDto) =>

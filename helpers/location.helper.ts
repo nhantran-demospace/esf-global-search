@@ -16,10 +16,23 @@ export const getAllLevel0Locations = () =>
   );
 
 export const getLevel1Locations = (level0Id: number) => {
-  return allLocations.filter(
+  let allLevel1Locations = allLocations.filter(
     (location) =>
       location.levelInfo.atLevel === LocationLevel.LEVEL1 &&
       location.levelInfo.level0Id === level0Id
+  );
+
+  const matchingLevel0Location = { ...getLocationById(level0Id) };
+  matchingLevel0Location.locationName = '-';
+
+  // add matching level 0 as one of the locations in level 1 with location name as '-'
+  allLevel1Locations = [...allLevel1Locations, matchingLevel0Location];
+  return allLevel1Locations.sort((a, b) =>
+    a.locationName > b.locationName
+      ? 1
+      : b.locationName > a.locationName
+      ? -1
+      : 0
   );
 };
 
@@ -93,11 +106,13 @@ const buildLocationSummaryDtos = (
       level1Name:
         levelInfo.atLevel === LocationLevel.LEVEL1
           ? locationName
-          : getLocationById((levelInfo as Level4Info).level1Id)?.locationName,
+          : getLocationById((levelInfo as Level4Info).level1Id)?.locationName ??
+            '-',
       level2Name:
         levelInfo.atLevel === LocationLevel.LEVEL2
           ? locationName
-          : getLocationById((levelInfo as Level4Info).level2Id)?.locationName,
+          : getLocationById((levelInfo as Level4Info).level2Id)?.locationName ??
+            '-',
       ...locationStatisticDictionary[locationId]
     };
     locationSummaryDtos.push(locationSummaryDto);

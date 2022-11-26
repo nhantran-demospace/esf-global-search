@@ -54,7 +54,10 @@ const LocationTotalStatistics = () => {
       level0Name ===
         getLocationById(selectedLevel0Id ? selectedLevel0Id : 0).locationName &&
       selectedLevel1Ids
-        .map((id) => getLocationById(id).locationName)
+        .map((id) => {
+          if (id === selectedLevel0Id) return '-';
+          return getLocationById(id).locationName;
+        })
         .includes(level1Name)
   );
 

@@ -35,10 +35,16 @@ const LocationList = () => {
       level0Name ===
         getLocationById(selectedLevel0Id ? selectedLevel0Id : 0).locationName &&
       selectedLevel1Ids
-        .map((id) => getLocationById(id).locationName)
+        .map((id) => {
+          if (id === selectedLevel0Id) return '-';
+          return getLocationById(id).locationName;
+        })
         .includes(level1Name) &&
       selectedLevel2Ids
-        .map((id) => getLocationById(id).locationName)
+        .map((id) => {
+          if (id === selectedLevel0Id) return '-';
+          return getLocationById(id).locationName;
+        })
         .includes(level2Name)
   );
 
@@ -50,7 +56,7 @@ const LocationList = () => {
 
     if (atLevel === LocationLevel.LEVEL0) {
       dispatch(persistSelectedLevel0Id(locationId));
-      dispatch(persistSelectedLevel1Ids([]));
+      dispatch(persistSelectedLevel1Ids([locationId]));
     }
 
     if (atLevel === LocationLevel.LEVEL1) {

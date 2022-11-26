@@ -32,7 +32,7 @@ const Level2SelectBox = ({
         key={`${selectedLevel0Id}-${selectedLevel1Ids}`}
         handleSelect={(ids) => onLevel2Selected(ids)}
         defaultValues={selectedLevel2Ids}
-        placeholder={'Select level 1'}
+        placeholder={'Select level 2'}
         maxWidth={'max-w-0'}
         marginTop={'mt-2'}
       >
