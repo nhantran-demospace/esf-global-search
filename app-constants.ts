@@ -8,7 +8,8 @@ export const colors: { [key in LogStatus]: Color } = {
   'Pending Update': 'yellow',
   Void: 'gray',
   'Void Pending Actions': 'gray',
-  Completed: 'blue'
+  Completed: 'blue',
+  'All statuses': 'green'
 };
 
 export const allStatuses: LogStatus[] = [
