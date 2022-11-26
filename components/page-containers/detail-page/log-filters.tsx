@@ -1,8 +1,8 @@
 import { Flex, Title } from '@tremor/react';
 
-import FormNameSelectBox from 'components/page-containers/details-page/filters/form-name-select-box';
-import LogStatusSelectBox from 'components/page-containers/details-page/filters/log-status-select-box';
-import SubmittedDatePicker from 'components/page-containers/details-page/filters/submitted-date-picker';
+import FormNameSelectBox from 'components/page-containers/detail-page/filters/form-name-select-box';
+import LogStatusSelectBox from 'components/page-containers/detail-page/filters/log-status-select-box';
+import SubmittedDatePicker from 'components/page-containers/detail-page/filters/submitted-date-picker';
 
 import { LogStatus } from 'models/log.model';
 

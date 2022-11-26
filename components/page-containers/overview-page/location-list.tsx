@@ -37,7 +37,7 @@ const LocationList = () => {
   const onStatisticClick = (level1Id: number, status: LogStatus) => {
     dispatch(persistStatusFilter([status]));
     dispatch(persistSelectedLevel1Ids([level1Id]));
-    router.push(`${Path.AlternativeDetail}`);
+    router.push(`${Path.Detail}`);
   };
 
   return (

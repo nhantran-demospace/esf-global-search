@@ -1,6 +1,6 @@
 import Head from 'next/head';
 
-import DetailsPageContainer from 'components/page-containers/details-page';
+import DetailsPageContainer from 'components/page-containers/detail-page';
 import ControlBar from 'components/control-bar';
 import Header from 'components/navbar';
 
