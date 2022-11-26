@@ -1,12 +1,15 @@
-import { Title, Subtitle, Card } from '@tremor/react';
+import { Card, Subtitle, Title } from '@tremor/react';
 
 import { selectSelectedLevel0Id } from 'slices/location.slice';
+
 import { useAppSelector } from 'hooks';
 
 import { getLocationById } from 'helpers/location.helper';
-import { LocationList } from './location-list';
 
-export default function HomePageOverview() {
+import LocationList from 'components/overview-page-container-alternative-ui/location-list';
+import LocationTotalStatistics from 'components/overview-page-container-alternative-ui/location-total-statistics';
+
+export default function OverviewPageContainer() {
   const selectedLevel0Id = useAppSelector(selectSelectedLevel0Id);
   const selectedLevel0Name = selectedLevel0Id
     ? getLocationById(selectedLevel0Id).locationName
@@ -24,9 +27,15 @@ export default function HomePageOverview() {
   }
 
   return (
-    <Card>
-      <Title>{selectedLevel0Name}</Title>
-      <LocationList />
-    </Card>
+    <>
+      <Card>
+        <Title>{selectedLevel0Name}</Title>
+        <LocationTotalStatistics />
+      </Card>
+
+      <Card marginTop="mt-8">
+        <LocationList />
+      </Card>
+    </>
   );
 }

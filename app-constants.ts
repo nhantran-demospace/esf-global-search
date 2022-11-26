@@ -19,3 +19,11 @@ export const allStatuses: LogStatus[] = [
   LogStatus.VOID_PENDING_ACTIONS,
   LogStatus.COMPLETED
 ];
+
+export const statusesToShowOnOverview: LogStatus[] = [
+  LogStatus.OPEN,
+  LogStatus.PARTIALLY_SUBMITTED,
+  LogStatus.PENDING_UPDATE,
+  LogStatus.VOID,
+  LogStatus.VOID_PENDING_ACTIONS
+];

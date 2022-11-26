@@ -19,7 +19,7 @@ import {
 import { persistStatusFilter } from 'slices/log-list-filter.slice';
 import { Path } from 'enums';
 
-export const LocationList = () => {
+const LocationList = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const selectedLevel0Id = useAppSelector(selectSelectedLevel0Id);
@@ -41,7 +41,7 @@ export const LocationList = () => {
   };
 
   return (
-    <Table marginTop={'mt-4'}>
+    <Table marginTop={'mt-2'}>
       <TableHead>
         <TableRow>
           <TableHeaderCell>Level 1</TableHeaderCell>
@@ -148,3 +148,5 @@ const StatisticCellContent = ({
     </TableCell>
   );
 };
+
+export default LocationList;

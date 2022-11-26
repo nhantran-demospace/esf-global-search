@@ -6,7 +6,7 @@ import Header from 'components/header';
 
 export default function Home() {
   return (
-    <>
+    <div className="bg-slate-50 min-h-screen">
       <Head>
         <title>eShopFloor | Global Search | Detail</title>
         <meta name="description" content="Demo of ESF Global Search feature" />
@@ -17,6 +17,6 @@ export default function Home() {
       <main className="bg-slate-50 p-6">
         <DetailsPageContainer />
       </main>
-    </>
+    </div>
   );
 }
