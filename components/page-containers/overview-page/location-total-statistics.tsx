@@ -34,6 +34,17 @@ const getStatusTotal = (
   }, 0);
 };
 
+const buildTotalStatisticDictionary = (
+  locationDtos: LocationSummaryDto[],
+  statuses: LogStatus[]
+): Record<LogStatus, number> => {
+  const dict = {} as Record<LogStatus, number>;
+  statuses.forEach(
+    (status) => (dict[status] = getStatusTotal(locationDtos, status))
+  );
+  return dict;
+};
+
 const LocationTotalStatistics = () => {
   const selectedLevel0Id = useAppSelector(selectSelectedLevel0Id);
   const selectedLevel1Ids = useAppSelector(selectSelectedLevel1Ids);
@@ -45,6 +56,11 @@ const LocationTotalStatistics = () => {
       selectedLevel1Ids
         .map((id) => getLocationById(id).locationName)
         .includes(level1Name)
+  );
+
+  const totalStatistics = buildTotalStatisticDictionary(
+    matchingLocationDtos,
+    statusesToShowOnOverview
   );
 
   return (
@@ -59,12 +75,24 @@ const LocationTotalStatistics = () => {
         <Flex key={status} justifyContent="justify-start" spaceX="space-x-4">
           <Block truncate={true}>
             <Text>{`Total ${status}`}</Text>
-            <StatusTotalValue
-              total={getStatusTotal(matchingLocationDtos, status)}
-            />
+            <StatusTotalValue total={totalStatistics[status]} />
           </Block>
         </Flex>
       ))}
+      <Flex
+        key={'grand-total'}
+        justifyContent="justify-start"
+        spaceX="space-x-4"
+      >
+        <Block truncate={true}>
+          <Text>Grand Total</Text>
+          <StatusTotalValue
+            total={Object.values(totalStatistics).reduce(
+              (sum, current) => (sum += current)
+            )}
+          />
+        </Block>
+      </Flex>{' '}
     </ColGrid>
   );
 };
