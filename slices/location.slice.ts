@@ -6,11 +6,13 @@ import type { RootState } from 'store';
 interface LocationState {
   selectedLevel0Id: number | undefined;
   selectedLevel1Ids: number[];
+  selectedLevel2Ids: number[];
 }
 
 const initialState: LocationState = {
   selectedLevel0Id: undefined,
-  selectedLevel1Ids: []
+  selectedLevel1Ids: [],
+  selectedLevel2Ids: []
 };
 
 export const locationSlice = createSlice({
@@ -28,6 +30,12 @@ export const locationSlice = createSlice({
     },
     clearSelectedLevel1Ids: (state) => {
       state.selectedLevel1Ids = [];
+    },
+    persistSelectedLevel2Ids: (state, action: PayloadAction<number[]>) => {
+      state.selectedLevel2Ids = action.payload;
+    },
+    clearSelectedLevel2Ids: (state) => {
+      state.selectedLevel2Ids = [];
     }
   }
 });
@@ -36,7 +44,9 @@ export const {
   persistSelectedLevel0Id,
   clearSelectedLevel0Id,
   persistSelectedLevel1Ids,
-  clearSelectedLevel1Ids
+  clearSelectedLevel1Ids,
+  persistSelectedLevel2Ids,
+  clearSelectedLevel2Ids
 } = locationSlice.actions;
 
 export const selectSelectedLevel0Id = (state: RootState) =>
@@ -44,5 +54,8 @@ export const selectSelectedLevel0Id = (state: RootState) =>
 
 export const selectSelectedLevel1Ids = (state: RootState) =>
   state.location.selectedLevel1Ids;
+
+export const selectSelectedLevel2Ids = (state: RootState) =>
+  state.location.selectedLevel2Ids;
 
 export default locationSlice.reducer;

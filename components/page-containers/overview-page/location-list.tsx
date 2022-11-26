@@ -12,31 +12,59 @@ import { getLocationById, locationSummaryDtos } from 'helpers/location.helper';
 import { LogStatus } from 'models/log.model';
 import { useAppDispatch, useAppSelector } from 'hooks';
 import {
+  persistSelectedLevel0Id,
   persistSelectedLevel1Ids,
+  persistSelectedLevel2Ids,
   selectSelectedLevel0Id,
-  selectSelectedLevel1Ids
+  selectSelectedLevel1Ids,
+  selectSelectedLevel2Ids
 } from 'slices/location.slice';
 import { persistStatusFilter } from 'slices/log-list-filter.slice';
 import { Path } from 'enums';
+import { LocationLevel } from 'models/location.model';
 
 const LocationList = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const selectedLevel0Id = useAppSelector(selectSelectedLevel0Id);
   const selectedLevel1Ids = useAppSelector(selectSelectedLevel1Ids);
+  const selectedLevel2Ids = useAppSelector(selectSelectedLevel2Ids);
 
   const matchingLocationDtos = locationSummaryDtos.filter(
-    ({ level0Name, level1Name }) =>
+    ({ level0Name, level1Name, level2Name }) =>
       level0Name ===
         getLocationById(selectedLevel0Id ? selectedLevel0Id : 0).locationName &&
       selectedLevel1Ids
         .map((id) => getLocationById(id).locationName)
-        .includes(level1Name)
+        .includes(level1Name) &&
+      selectedLevel2Ids
+        .map((id) => getLocationById(id).locationName)
+        .includes(level2Name)
   );
 
-  const onStatisticClick = (level1Id: number, status: LogStatus) => {
+  const onStatisticClick = (locationId: number, status: LogStatus) => {
     dispatch(persistStatusFilter([status]));
-    dispatch(persistSelectedLevel1Ids([level1Id]));
+
+    const { levelInfo } = getLocationById(locationId);
+    const atLevel = levelInfo.atLevel;
+
+    if (atLevel === LocationLevel.LEVEL0) {
+      dispatch(persistSelectedLevel0Id(locationId));
+      dispatch(persistSelectedLevel1Ids([]));
+    }
+
+    if (atLevel === LocationLevel.LEVEL1) {
+      dispatch(persistSelectedLevel0Id(levelInfo.level0Id));
+      dispatch(persistSelectedLevel1Ids([locationId]));
+      dispatch(persistSelectedLevel1Ids(selectedLevel2Ids));
+    }
+
+    if (atLevel === LocationLevel.LEVEL2) {
+      dispatch(persistSelectedLevel0Id(levelInfo.level0Id));
+      dispatch(persistSelectedLevel1Ids([levelInfo.level1Id]));
+      dispatch(persistSelectedLevel2Ids([locationId]));
+    }
+
     router.push(`${Path.Detail}`);
   };
 
@@ -44,6 +72,7 @@ const LocationList = () => {
     <Table marginTop={'mt-2'}>
       <TableHead>
         <TableRow>
+          <TableHeaderCell>Level 0</TableHeaderCell>
           <TableHeaderCell>Level 1</TableHeaderCell>
           <TableHeaderCell>Level 2</TableHeaderCell>
           <TableHeaderCell textAlignment={'text-left'}>
@@ -71,6 +100,7 @@ const LocationList = () => {
         {matchingLocationDtos.map(
           ({
             locationId,
+            level0Name,
             level1Name,
             level2Name,
             openCount,
@@ -80,6 +110,7 @@ const LocationList = () => {
             partiallySubmittedCount
           }) => (
             <TableRow key={`${level1Name}-${level2Name}`}>
+              <TableCell>{level0Name}</TableCell>
               <TableCell>{level1Name}</TableCell>
               <TableCell>{level2Name}</TableCell>
               <StatisticCellContent

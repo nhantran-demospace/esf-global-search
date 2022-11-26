@@ -23,7 +23,7 @@ const Level1SelectBox = ({
       <Text>Level 1 location</Text>
       <MultiSelectBox
         key={`${level0Id}`}
-        handleSelect={(locationId) => onLevel1Selected(locationId)}
+        handleSelect={(ids) => onLevel1Selected(ids)}
         defaultValues={selectedLevel1Locations.map(
           ({ locationId }) => locationId
         )}

@@ -8,29 +8,35 @@ import {
 
 import { getLevel2Locations } from 'helpers/location.helper';
 
-const Level2SelectBox = () => {
+interface Level2SelectBoxProps {
+  level0Id: number;
+  level1Ids: number[];
+  onLevel2Selected: (ids: number[]) => void;
+  selectedLevel2Ids: number[];
+}
+
+const Level2SelectBox = ({
+  onLevel2Selected,
+  selectedLevel2Ids
+}: Level2SelectBoxProps) => {
   const selectedLevel0Id = useAppSelector(selectSelectedLevel0Id);
   const selectedLevel1Ids = useAppSelector(selectSelectedLevel1Ids);
-  const matchingLevel2Locations = selectedLevel1Ids
+  const allLevel2Locations = selectedLevel1Ids
     .map((level1Id) => getLevel2Locations(selectedLevel0Id ?? 0, level1Id))
     .flat();
-
-  console.log(matchingLevel2Locations);
 
   return (
     <div>
       <Text>Level 2 location</Text>
       <MultiSelectBox
         key={`${selectedLevel0Id}-${selectedLevel1Ids}`}
-        handleSelect={() => {}}
-        defaultValues={matchingLevel2Locations.map(
-          (level2) => level2.locationId
-        )}
+        handleSelect={(ids) => onLevel2Selected(ids)}
+        defaultValues={selectedLevel2Ids}
         placeholder={'Select level 1'}
         maxWidth={'max-w-0'}
         marginTop={'mt-2'}
       >
-        {matchingLevel2Locations.map(
+        {allLevel2Locations.map(
           ({ locationId, locationName, levelInfo: { atLevel } }) => (
             <MultiSelectBoxItem
               key={`${locationId}-${locationName}-${atLevel}`}
