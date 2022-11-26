@@ -6,8 +6,8 @@ import { useAppSelector } from 'hooks';
 
 import { getLocationById } from 'helpers/location.helper';
 
-import LocationList from 'components/overview-page-container-alternative-ui/location-list';
-import LocationTotalStatistics from 'components/overview-page-container-alternative-ui/location-total-statistics';
+import LocationList from 'components/page-containers/overview-page/location-list';
+import LocationTotalStatistics from 'components/page-containers/overview-page/location-total-statistics';
 
 export default function OverviewPageContainer() {
   const selectedLevel0Id = useAppSelector(selectSelectedLevel0Id);

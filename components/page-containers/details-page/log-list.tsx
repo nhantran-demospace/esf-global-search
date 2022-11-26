@@ -27,7 +27,7 @@ import { useAppDispatch, useAppSelector } from 'hooks';
 
 import { colors } from 'app-constants';
 
-import LogFilters from 'components/details-page-container/log-filters';
+import LogFilters from 'components/page-containers/details-page/log-filters';
 
 import {
   selectSelectedLevel0Id,

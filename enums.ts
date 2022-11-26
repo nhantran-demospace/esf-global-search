@@ -5,7 +5,5 @@ export enum Page {
 
 export enum Path {
   'Overview' = '/overview',
-  'Detail' = '/details',
-  'AlternativeOverview' = '/alternative/overview',
-  'AlternativeDetail' = '/alternative/details'
+  'Detail' = '/details'
 }
