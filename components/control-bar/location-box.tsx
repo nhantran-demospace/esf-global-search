@@ -1,18 +1,7 @@
-import {
-  MultiSelectBox,
-  MultiSelectBoxItem,
-  SelectBox,
-  SelectBoxItem,
-  Flex,
-  Text
-} from '@tremor/react';
+import { Flex } from '@tremor/react';
 import { useState } from 'react';
 
-import {
-  getAllLevel0Locations,
-  getLevel1Locations,
-  getLocationById
-} from 'helpers/location.helper';
+import { getLevel1Locations } from 'helpers/location.helper';
 
 import { useAppDispatch, useAppSelector } from 'hooks';
 import {
@@ -22,81 +11,8 @@ import {
   selectSelectedLevel1Ids
 } from 'slices/location.slice';
 
-interface Level0SelectBoxProps {
-  selectedLevel0Id: number | undefined;
-  onLevel0Selected: (locationId: number) => void;
-}
-
-const Level0SelectBox = ({
-  onLevel0Selected,
-  selectedLevel0Id
-}: Level0SelectBoxProps) => {
-  const allLevel0Locations = getAllLevel0Locations();
-  return (
-    <div>
-      <Text>Level 0 location</Text>
-      <SelectBox
-        defaultValue={selectedLevel0Id}
-        handleSelect={(locationId) => onLevel0Selected(locationId)}
-        maxWidth={'max-w-0'}
-        marginTop={'mt-2'}
-      >
-        {allLevel0Locations.map(
-          ({ locationId, locationName, levelInfo: { atLevel } }) => (
-            <SelectBoxItem
-              key={`${locationId}-${locationName}-${atLevel}`}
-              value={locationId}
-              text={locationName}
-            />
-          )
-        )}
-      </SelectBox>
-    </div>
-  );
-};
-
-interface Level1SelectBoxProps {
-  level0Id: number;
-  onLevel1Selected: (ids: number[]) => void;
-  selectedLevel1Ids: number[];
-}
-
-const Level1SelectBox = ({
-  level0Id,
-  onLevel1Selected,
-  selectedLevel1Ids
-}: Level1SelectBoxProps) => {
-  const allLevel1Locations = getLevel1Locations(level0Id);
-  const selectedLevel1Locations = selectedLevel1Ids.map((id) =>
-    getLocationById(id)
-  );
-
-  return (
-    <div>
-      <Text>Level 1 location</Text>
-      <MultiSelectBox
-        key={`${level0Id}`}
-        handleSelect={(locationId) => onLevel1Selected(locationId)}
-        defaultValues={selectedLevel1Locations.map(
-          ({ locationId }) => locationId
-        )}
-        placeholder={'Select level 1'}
-        maxWidth={'max-w-0'}
-        marginTop={'mt-2'}
-      >
-        {allLevel1Locations.map(
-          ({ locationId, locationName, levelInfo: { atLevel } }) => (
-            <MultiSelectBoxItem
-              key={`${locationId}-${locationName}-${atLevel}`}
-              value={locationId}
-              text={locationName}
-            />
-          )
-        )}
-      </MultiSelectBox>
-    </div>
-  );
-};
+import Level0SelectBox from 'components/control-bar/level0-select-box';
+import Level1SelectBox from 'components/control-bar/level1-select-box';
 
 const LocationBox = () => {
   const dispatch = useAppDispatch();
