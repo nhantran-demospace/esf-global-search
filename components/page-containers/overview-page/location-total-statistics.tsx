@@ -88,7 +88,7 @@ const LocationTotalStatistics = () => {
           <Text>Grand Total</Text>
           <StatusTotalValue
             total={Object.values(totalStatistics).reduce(
-              (sum, current) => (sum += current)
+              (sum, current) => sum + current
             )}
           />
         </Block>
