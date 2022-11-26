@@ -70,6 +70,9 @@ export const buildLocationStatisticDictionary = (
         (log) =>
           log.locationId === locationId &&
           log.status === LogStatus.PARTIALLY_SUBMITTED
+      ).length,
+      voidCount: allLogs.filter(
+        (log) => log.locationId === locationId && log.status === LogStatus.VOID
       ).length
     };
   });

@@ -46,20 +46,23 @@ const LocationList = () => {
         <TableRow>
           <TableHeaderCell>Level 1</TableHeaderCell>
           <TableHeaderCell>Level 2</TableHeaderCell>
-          <TableHeaderCell textAlignment={'text-right'}>
+          <TableHeaderCell textAlignment={'text-left'}>
             {LogStatus.PARTIALLY_SUBMITTED}
           </TableHeaderCell>
-          <TableHeaderCell textAlignment={'text-right'}>
+          <TableHeaderCell textAlignment={'text-left'}>
             {LogStatus.OPEN}
           </TableHeaderCell>
-          <TableHeaderCell textAlignment={'text-right'}>
+          <TableHeaderCell textAlignment={'text-left'}>
             {LogStatus.PENDING_UPDATE}
           </TableHeaderCell>
-          <TableHeaderCell textAlignment={'text-right'}>
+          <TableHeaderCell textAlignment={'text-left'}>
+            {LogStatus.VOID}
+          </TableHeaderCell>
+          <TableHeaderCell textAlignment={'text-left'}>
             {LogStatus.VOID_PENDING_ACTIONS}
           </TableHeaderCell>
-          <TableHeaderCell textAlignment={'text-right'}>
-            Grand Total
+          <TableHeaderCell textAlignment={'text-left'}>
+            All Statuses Total
           </TableHeaderCell>
         </TableRow>
       </TableHead>
@@ -73,6 +76,7 @@ const LocationList = () => {
             openCount,
             pendingUpdateCount,
             voidPendingActionsCount,
+            voidCount,
             partiallySubmittedCount
           }) => (
             <TableRow key={`${level1Name}-${level2Name}`}>
@@ -97,6 +101,12 @@ const LocationList = () => {
                 onStatisticClick={onStatisticClick}
               />
               <StatisticCellContent
+                count={voidCount}
+                locationId={locationId}
+                status={LogStatus.VOID}
+                onStatisticClick={onStatisticClick}
+              />
+              <StatisticCellContent
                 count={voidPendingActionsCount}
                 locationId={locationId}
                 status={LogStatus.VOID_PENDING_ACTIONS}
@@ -107,6 +117,7 @@ const LocationList = () => {
                   partiallySubmittedCount +
                   openCount +
                   pendingUpdateCount +
+                  voidCount +
                   voidPendingActionsCount
                 }
                 locationId={locationId}
@@ -135,7 +146,7 @@ const StatisticCellContent = ({
   status
 }: StatisticCellContentProps) => {
   return (
-    <TableCell textAlignment={'text-right'}>
+    <TableCell textAlignment={'text-left'}>
       {count > 0 ? (
         <ButtonInline
           text={String(count)}

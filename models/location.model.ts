@@ -51,6 +51,7 @@ export type LocationDictionary = Record<number, Location>;
 export interface LocationStatistic {
   openCount: number;
   pendingUpdateCount: number;
+  voidCount: number;
   voidPendingActionsCount: number;
   partiallySubmittedCount: number;
 }
