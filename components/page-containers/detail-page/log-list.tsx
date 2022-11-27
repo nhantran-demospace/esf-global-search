@@ -80,7 +80,6 @@ export default function LogList() {
         <LogFilters
           onFormNameSelected={onFormNameSelected}
           onStatusSelected={onStatusSelected}
-          initialStatuses={initialStatusFilter}
           onSubmittedDateSelected={onSubmittedDateSelected}
         />
 
@@ -97,7 +96,6 @@ export default function LogList() {
       <LogFilters
         onFormNameSelected={onFormNameSelected}
         onStatusSelected={onStatusSelected}
-        initialStatuses={initialStatusFilter}
         onSubmittedDateSelected={onSubmittedDateSelected}
       />
 

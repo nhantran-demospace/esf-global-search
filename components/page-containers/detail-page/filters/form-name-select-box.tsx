@@ -1,6 +1,6 @@
 import { MultiSelectBox, MultiSelectBoxItem, Text } from '@tremor/react';
 
-import { getFormById, allFormNames, allFormIds } from 'helpers/form.helper';
+import { getFormById, allFormIds } from 'helpers/form.helper';
 
 interface FormNameSelectBoxProps {
   onFormNameSelected: (formIds: number[]) => void;
@@ -11,7 +11,7 @@ const FormNameSelectBox = ({ onFormNameSelected }: FormNameSelectBoxProps) => {
     <div>
       <Text>Form name</Text>
       <MultiSelectBox
-        defaultValues={allFormNames}
+        defaultValues={allFormIds}
         handleSelect={onFormNameSelected}
         maxWidth="max-w-xs"
         marginTop={'mt-2'}
