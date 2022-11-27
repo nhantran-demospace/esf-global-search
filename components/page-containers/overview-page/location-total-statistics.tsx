@@ -1,3 +1,4 @@
+import { isEmpty } from 'lodash';
 import { Block, ColGrid, Flex, Metric, Text } from '@tremor/react';
 
 import { LogStatus } from 'models/log.model';
@@ -6,10 +7,11 @@ import { useAppSelector } from 'hooks';
 
 import {
   selectSelectedLevel0Id,
-  selectSelectedLevel1Ids
+  selectSelectedLevel1Ids,
+  selectSelectedLevel2Ids
 } from 'slices/location.slice';
 
-import { getLocationById, locationSummaryDtos } from 'helpers/location.helper';
+import { locationSummaryDtos } from 'helpers/location.helper';
 import { LocationSummaryDto } from 'models/location.model';
 import { statusesToShowOnOverview } from 'app-constants';
 
@@ -48,17 +50,14 @@ const buildTotalStatisticDictionary = (
 const LocationTotalStatistics = () => {
   const selectedLevel0Id = useAppSelector(selectSelectedLevel0Id);
   const selectedLevel1Ids = useAppSelector(selectSelectedLevel1Ids);
+  const selectedLevel2Ids = useAppSelector(selectSelectedLevel2Ids);
 
-  const matchingLocationDtos = locationSummaryDtos.filter(
-    ({ level0Name, level1Name }) =>
-      level0Name ===
-        getLocationById(selectedLevel0Id ? selectedLevel0Id : 0).locationName &&
-      selectedLevel1Ids
-        .map((id) => {
-          if (id === selectedLevel0Id) return '-';
-          return getLocationById(id).locationName;
-        })
-        .includes(level1Name)
+  const matchingLocationDtos = locationSummaryDtos.filter(({ locationId }) =>
+    !isEmpty(selectedLevel2Ids)
+      ? selectedLevel2Ids.includes(locationId)
+      : !isEmpty(selectedLevel1Ids)
+      ? selectedLevel1Ids.includes(locationId)
+      : selectedLevel0Id === locationId
   );
 
   const totalStatistics = buildTotalStatisticDictionary(
