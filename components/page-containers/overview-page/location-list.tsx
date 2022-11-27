@@ -40,7 +40,20 @@ const LocationList = () => {
   );
 
   const onStatisticClick = (locationId: number, status: LogStatus) => {
-    dispatch(persistStatusFilter([status]));
+    if (status === LogStatus.ALL) {
+      dispatch(
+        persistStatusFilter([
+          LogStatus.PARTIALLY_SUBMITTED,
+          LogStatus.OPEN,
+          LogStatus.PENDING_UPDATE,
+          LogStatus.VOID_PENDING_ACTIONS,
+          LogStatus.VOID,
+          LogStatus.COMPLETED
+        ])
+      );
+    } else {
+      dispatch(persistStatusFilter([status]));
+    }
 
     const { levelInfo } = getLocationById(locationId);
     const atLevel = levelInfo.atLevel;
