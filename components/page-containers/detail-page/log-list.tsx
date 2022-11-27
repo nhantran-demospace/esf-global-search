@@ -15,7 +15,6 @@ import {
 
 import { logSummaryDtos } from 'helpers/log.helper';
 import { allFormIds } from 'helpers/form.helper';
-import { getLocationById } from 'helpers/location.helper';
 
 import { LogStatus } from 'models/log.model';
 import {
@@ -31,13 +30,15 @@ import LogFilters from 'components/page-containers/detail-page/log-filters';
 
 import {
   selectSelectedLevel0Id,
-  selectSelectedLevel1Ids
+  selectSelectedLevel1Ids,
+  selectSelectedLevel2Ids
 } from 'slices/location.slice';
 
 export default function LogList() {
   const dispatch = useAppDispatch();
   const selectedLevel0Id = useAppSelector(selectSelectedLevel0Id);
-  const selectedLeve1Ids = useAppSelector(selectSelectedLevel1Ids);
+  const selectedLevel1Ids = useAppSelector(selectSelectedLevel1Ids);
+  const selectedLevel2Ids = useAppSelector(selectSelectedLevel2Ids);
   const initialStatusFilter = useAppSelector(selectStatusFilter);
   const [selectedStatuses, setSelectedStatuses] =
     useState<LogStatus[]>(initialStatusFilter);
@@ -47,17 +48,13 @@ export default function LogList() {
     new Date()
   ]);
 
-  const level1LocationNames = selectedLeve1Ids.map((level1Id) => {
-    if (level1Id === selectedLevel0Id) return '-';
-    return getLocationById(level1Id).locationName;
-  });
-
   const filteredLogDtos = logSummaryDtos.filter(
     (logDto) =>
-      getLocationById(selectedLevel0Id ?? 0)?.locationName === logDto.level0 &&
-      (isEmpty(level1LocationNames)
-        ? true
-        : level1LocationNames.includes(logDto.level1)) &&
+      (!isEmpty(selectedLevel2Ids)
+        ? selectedLevel2Ids.includes(logDto.locationId)
+        : !isEmpty(selectedLevel1Ids)
+        ? selectedLevel1Ids.includes(logDto.locationId)
+        : selectedLevel0Id === logDto.locationId) &&
       selectedStatuses.includes(logDto.status) &&
       selectedFormIds.includes(logDto.formId) &&
       selectedDateRange[0] <= logDto.submittedDate &&

@@ -34,6 +34,7 @@ const buildLogSummaryDtos = (): LogSummaryDto[] => {
       const form = allForms.find((form) => form.formId === formId);
 
       const logSummaryDto: LogSummaryDto = {
+        locationId,
         logId,
         formId,
         formVersion: form ? form.formVersion : 0,

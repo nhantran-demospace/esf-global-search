@@ -8,6 +8,7 @@ export interface Log {
 }
 
 export interface LogSummaryDto {
+  locationId: number;
   logId: number;
   formId: number;
   formVersion: number;

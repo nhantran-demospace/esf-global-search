@@ -22,6 +22,7 @@ import {
 import { persistStatusFilter } from 'slices/log-list-filter.slice';
 import { Path } from 'enums';
 import { LocationLevel } from 'models/location.model';
+import { isEmpty } from 'lodash';
 
 const LocationList = () => {
   const router = useRouter();
@@ -30,22 +31,12 @@ const LocationList = () => {
   const selectedLevel1Ids = useAppSelector(selectSelectedLevel1Ids);
   const selectedLevel2Ids = useAppSelector(selectSelectedLevel2Ids);
 
-  const matchingLocationDtos = locationSummaryDtos.filter(
-    ({ level0Name, level1Name, level2Name }) =>
-      level0Name ===
-        getLocationById(selectedLevel0Id ? selectedLevel0Id : 0).locationName &&
-      selectedLevel1Ids
-        .map((id) => {
-          if (id === selectedLevel0Id) return '-';
-          return getLocationById(id).locationName;
-        })
-        .includes(level1Name) &&
-      selectedLevel2Ids
-        .map((id) => {
-          if (id === selectedLevel0Id) return '-';
-          return getLocationById(id).locationName;
-        })
-        .includes(level2Name)
+  const matchingLocationDtos = locationSummaryDtos.filter(({ locationId }) =>
+    !isEmpty(selectedLevel2Ids)
+      ? selectedLevel2Ids.includes(locationId)
+      : !isEmpty(selectedLevel1Ids)
+      ? selectedLevel1Ids.includes(locationId)
+      : selectedLevel0Id === locationId
   );
 
   const onStatisticClick = (locationId: number, status: LogStatus) => {
@@ -56,7 +47,8 @@ const LocationList = () => {
 
     if (atLevel === LocationLevel.LEVEL0) {
       dispatch(persistSelectedLevel0Id(locationId));
-      dispatch(persistSelectedLevel1Ids([locationId]));
+      dispatch(persistSelectedLevel1Ids([]));
+      dispatch(persistSelectedLevel2Ids([]));
     }
 
     if (atLevel === LocationLevel.LEVEL1) {

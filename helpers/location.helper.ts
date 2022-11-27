@@ -37,11 +37,24 @@ export const getLevel1Locations = (level0Id: number) => {
 };
 
 export const getLevel2Locations = (level0Id: number, level1Id: number) => {
-  return allLocations.filter(
+  let allLevel2Locations = allLocations.filter(
     (location) =>
       location.levelInfo.atLevel === LocationLevel.LEVEL2 &&
       location.levelInfo.level0Id === level0Id &&
       location.levelInfo.level1Id === level1Id
+  );
+
+  const matchingLevel1Location = { ...getLocationById(level1Id) };
+  matchingLevel1Location.locationName = '-';
+
+  // add matching level 1 locations as locations in level 2 with location name as '-'
+  allLevel2Locations = [...allLevel2Locations, matchingLevel1Location];
+  return allLevel2Locations.sort((a, b) =>
+    a.locationName > b.locationName
+      ? 1
+      : b.locationName > a.locationName
+      ? -1
+      : 0
   );
 };
 
