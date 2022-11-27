@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Flex } from '@tremor/react';
 import { isEmpty } from 'lodash';
 
@@ -37,7 +37,12 @@ const LocationBox = () => {
     initialSelectedLevel2Ids
   );
 
+  const previousSelectedLevel0Id = useRef<number | undefined>(selectedLevel0Id);
+
   const onLevel0Selected = (level0Id: number) => {
+    if (previousSelectedLevel0Id.current === level0Id) return;
+    previousSelectedLevel0Id.current = level0Id;
+
     const matchingLevel1Ids = getLevel1Locations(level0Id).map(
       (level1) => level1.locationId
     );
