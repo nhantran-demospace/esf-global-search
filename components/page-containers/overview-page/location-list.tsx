@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router';
+import { isEmpty } from 'lodash';
 import {
   ButtonInline,
   Table,
@@ -8,6 +9,8 @@ import {
   TableHeaderCell,
   TableRow
 } from '@tremor/react';
+import { clsx } from 'clsx';
+
 import { getLocationById, locationSummaryDtos } from 'helpers/location.helper';
 import { LogStatus } from 'models/log.model';
 import { useAppDispatch, useAppSelector } from 'hooks';
@@ -22,7 +25,11 @@ import {
 import { persistStatusFilter } from 'slices/log-list-filter.slice';
 import { Path } from 'enums';
 import { LocationLevel } from 'models/location.model';
-import { isEmpty } from 'lodash';
+
+const tableClasses = clsx(
+  '[&>div>table>tbody>tr>td]:!pb-2',
+  '[&>div>table>tbody>tr>td]:!pt-2'
+);
 
 const LocationList = () => {
   const router = useRouter();
@@ -80,97 +87,99 @@ const LocationList = () => {
   };
 
   return (
-    <Table marginTop={'mt-2'}>
-      <TableHead>
-        <TableRow>
-          <TableHeaderCell>Level 0</TableHeaderCell>
-          <TableHeaderCell>Level 1</TableHeaderCell>
-          <TableHeaderCell>Level 2</TableHeaderCell>
-          <TableHeaderCell textAlignment={'text-left'}>
-            {LogStatus.PARTIALLY_SUBMITTED}
-          </TableHeaderCell>
-          <TableHeaderCell textAlignment={'text-left'}>
-            {LogStatus.OPEN}
-          </TableHeaderCell>
-          <TableHeaderCell textAlignment={'text-left'}>
-            {LogStatus.PENDING_UPDATE}
-          </TableHeaderCell>
-          <TableHeaderCell textAlignment={'text-left'}>
-            {LogStatus.VOID}
-          </TableHeaderCell>
-          <TableHeaderCell textAlignment={'text-left'}>
-            {LogStatus.VOID_PENDING_ACTIONS}
-          </TableHeaderCell>
-          <TableHeaderCell textAlignment={'text-left'}>
-            All Statuses Total
-          </TableHeaderCell>
-        </TableRow>
-      </TableHead>
+    <div className={tableClasses}>
+      <Table marginTop={'mt-2'}>
+        <TableHead>
+          <TableRow>
+            <TableHeaderCell>Level 0</TableHeaderCell>
+            <TableHeaderCell>Level 1</TableHeaderCell>
+            <TableHeaderCell>Level 2</TableHeaderCell>
+            <TableHeaderCell textAlignment={'text-left'}>
+              {LogStatus.PARTIALLY_SUBMITTED}
+            </TableHeaderCell>
+            <TableHeaderCell textAlignment={'text-left'}>
+              {LogStatus.OPEN}
+            </TableHeaderCell>
+            <TableHeaderCell textAlignment={'text-left'}>
+              {LogStatus.PENDING_UPDATE}
+            </TableHeaderCell>
+            <TableHeaderCell textAlignment={'text-left'}>
+              {LogStatus.VOID}
+            </TableHeaderCell>
+            <TableHeaderCell textAlignment={'text-left'}>
+              {LogStatus.VOID_PENDING_ACTIONS}
+            </TableHeaderCell>
+            <TableHeaderCell textAlignment={'text-left'}>
+              All Statuses Total
+            </TableHeaderCell>
+          </TableRow>
+        </TableHead>
 
-      <TableBody>
-        {matchingLocationDtos.map(
-          ({
-            locationId,
-            level0Name,
-            level1Name,
-            level2Name,
-            openCount,
-            pendingUpdateCount,
-            voidPendingActionsCount,
-            voidCount,
-            partiallySubmittedCount
-          }) => (
-            <TableRow key={`${level1Name}-${level2Name}`}>
-              <TableCell>{level0Name}</TableCell>
-              <TableCell>{level1Name}</TableCell>
-              <TableCell>{level2Name}</TableCell>
-              <StatisticCellContent
-                count={partiallySubmittedCount}
-                locationId={locationId}
-                status={LogStatus.PARTIALLY_SUBMITTED}
-                onStatisticClick={onStatisticClick}
-              />
-              <StatisticCellContent
-                count={openCount}
-                locationId={locationId}
-                status={LogStatus.OPEN}
-                onStatisticClick={onStatisticClick}
-              />
-              <StatisticCellContent
-                count={pendingUpdateCount}
-                locationId={locationId}
-                status={LogStatus.PENDING_UPDATE}
-                onStatisticClick={onStatisticClick}
-              />
-              <StatisticCellContent
-                count={voidCount}
-                locationId={locationId}
-                status={LogStatus.VOID}
-                onStatisticClick={onStatisticClick}
-              />
-              <StatisticCellContent
-                count={voidPendingActionsCount}
-                locationId={locationId}
-                status={LogStatus.VOID_PENDING_ACTIONS}
-                onStatisticClick={onStatisticClick}
-              />
-              <StatisticCellContent
-                count={
-                  partiallySubmittedCount +
-                  openCount +
-                  pendingUpdateCount +
-                  voidCount +
-                  voidPendingActionsCount
-                }
-                locationId={locationId}
-                status={LogStatus.ALL}
-                onStatisticClick={onStatisticClick}
-              />
-            </TableRow>
-          )
-        )}
-      </TableBody>
-    </Table>
+        <TableBody>
+          {matchingLocationDtos.map(
+            ({
+              locationId,
+              level0Name,
+              level1Name,
+              level2Name,
+              openCount,
+              pendingUpdateCount,
+              voidPendingActionsCount,
+              voidCount,
+              partiallySubmittedCount
+            }) => (
+              <TableRow key={`${level1Name}-${level2Name}`}>
+                <TableCell>{level0Name}</TableCell>
+                <TableCell>{level1Name}</TableCell>
+                <TableCell>{level2Name}</TableCell>
+                <StatisticCellContent
+                  count={partiallySubmittedCount}
+                  locationId={locationId}
+                  status={LogStatus.PARTIALLY_SUBMITTED}
+                  onStatisticClick={onStatisticClick}
+                />
+                <StatisticCellContent
+                  count={openCount}
+                  locationId={locationId}
+                  status={LogStatus.OPEN}
+                  onStatisticClick={onStatisticClick}
+                />
+                <StatisticCellContent
+                  count={pendingUpdateCount}
+                  locationId={locationId}
+                  status={LogStatus.PENDING_UPDATE}
+                  onStatisticClick={onStatisticClick}
+                />
+                <StatisticCellContent
+                  count={voidCount}
+                  locationId={locationId}
+                  status={LogStatus.VOID}
+                  onStatisticClick={onStatisticClick}
+                />
+                <StatisticCellContent
+                  count={voidPendingActionsCount}
+                  locationId={locationId}
+                  status={LogStatus.VOID_PENDING_ACTIONS}
+                  onStatisticClick={onStatisticClick}
+                />
+                <StatisticCellContent
+                  count={
+                    partiallySubmittedCount +
+                    openCount +
+                    pendingUpdateCount +
+                    voidCount +
+                    voidPendingActionsCount
+                  }
+                  locationId={locationId}
+                  status={LogStatus.ALL}
+                  onStatisticClick={onStatisticClick}
+                />
+              </TableRow>
+            )
+          )}
+        </TableBody>
+      </Table>
+    </div>
   );
 };
 
